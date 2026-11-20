@@ -116,8 +116,8 @@ window.PATTERNS = [
     layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x.........x.....' },
     note: 'Half-time: one snare per bar on beat 3, lots of space for sub-bass.' },
   { id: 'jersey-club', name: 'Jersey Club', family: 'Electronic', region: 'Newark, USA', bpm: 140,
-    layers: { clap: '....x.......x...', kick: 'x...x...x..x.x..' },
-    note: 'Simplified. The five-kick figure is often swung toward triplets in practice.' },
+    layers: { hat: 'x..xx..xx..xxxxx', ohat: '..x...x...x.....', clap: '....x.......x...', kick: 'x...x...x..x.x..' },
+    note: 'Simplified. Busy, skippy hats with open hats on the off-beats and a roll into the next bar; the five-kick figure is often swung toward triplets in practice.' },
 
   // ───────── Latin America ─────────
   { id: 'son-clave', name: 'Son Clave (3-2)', family: 'Latin America', region: 'Cuba', bpm: 100,
@@ -258,8 +258,8 @@ window.PATTERNS = [
     note: 'Used in rhythms of the Central African Republic (Toussaint).' },
   // ───────── more Rock & Pop ─────────
   { id: 'motorik', name: 'Motorik', family: 'Rock & Pop', region: 'Düsseldorf, Germany', bpm: 130, tags: 'krautrock neu can apache',
-    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.....x.x.......' },
-    note: 'Simplified. The hypnotic Krautrock pulse (Neu!, La Düsseldorf): dead-straight eighths, no fills, the kick nudging the "and" of 2.' },
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.x...x.x.x...x.' },
+    note: 'The hypnotic Krautrock pulse (Klaus Dinger, Neu!): kick on 1, 1&, 2&, 3, 3& and 4&, snare on 2 and 4, dead-straight eighths and no fills.' },
   { id: 'halftime-rock', name: 'Half-time Groove', family: 'Rock & Pop', region: 'USA / UK', bpm: 140, tags: 'halftime half time feel',
     layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x.....x...x.....' },
     note: 'One backbeat per bar on 3: the song feels half as fast while the hats keep the real tempo.' },
