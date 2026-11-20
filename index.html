@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Drum Atlas · BB DSP</title>
+<meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams you can play and edit. By BB DSP.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="chassis">
+
+  <section class="win stage" aria-label="Selected pattern">
+    <header class="bar">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
+        <g fill="none" stroke="#B3B3B3" stroke-width="4.5" stroke-linejoin="miter" stroke-linecap="butt">
+          <path d="M12 9 L20 1 L28 9"/><path d="M31 12 L39 20 L31 28"/><path d="M28 31 L20 39 L12 31"/><path d="M9 28 L1 20 L9 12"/>
+        </g>
+        <path id="logoDiamond" d="M20 11 L29 20 L20 29 L11 20Z" fill="var(--acc)"/>
+      </svg>
+      <h1>DRUM ATLAS</h1>
+      <span class="brand">BB DSP</span>
+      <button id="play" class="key lit-able" aria-label="Play">PLAY</button>
+    </header>
+
+    <div class="stage-grid">
+      <div class="fig big" id="bigFig"></div>
+
+      <div class="panel">
+        <div class="lcds">
+          <div class="field wide"><span class="lbl">PATTERN</span><div class="lcd" id="pName">--</div></div>
+          <div class="field"><span class="lbl">FAMILY</span><div class="lcd sm" id="pFamily">--</div></div>
+          <div class="field"><span class="lbl">REGION</span><div class="lcd sm" id="pRegion">--</div></div>
+        </div>
+        <p class="note" id="pNote"></p>
+
+        <div class="knobs">
+          <div class="kn"><span class="lbl">TEMPO BPM</span><div class="kwrap"><div class="knob" id="kBpm"></div><div class="flip" id="fBpm"></div></div></div>
+          <div class="kn" id="swingWrap"><span class="lbl">SWING %</span><div class="kwrap"><div class="knob" id="kSwing"></div><div class="flip" id="fSwing"></div></div></div>
+          <div class="kn"><span class="lbl">STEPS</span><div class="kwrap"><div class="flip" id="fSteps"></div></div></div>
+        </div>
+
+        <div class="block">
+          <span class="lbl">LAYERS</span>
+          <ul class="layers" id="layers"></ul>
+        </div>
+
+        <div class="block">
+          <span class="lbl">EUCLIDEAN LAYER</span>
+          <div class="euclid">
+            <div class="dd"><select id="eInst" aria-label="Instrument"></select></div>
+            <div class="kn small"><span class="lbl">HITS</span><div class="kwrap"><div class="knob" id="kHits"></div><div class="flip" id="fHits"></div></div></div>
+            <div class="kn small"><span class="lbl">ROTATE</span><div class="kwrap"><div class="knob" id="kRot"></div><div class="flip" id="fRot"></div></div></div>
+            <button id="eAdd" class="key">ADD</button>
+          </div>
+          <div class="lcd strip" id="ePreview" aria-live="polite"></div>
+        </div>
+
+        <div class="actions">
+          <div class="act"><span class="lbl">START AGAIN</span><button id="reset" class="key">RESET</button></div>
+          <div class="act"><span class="lbl">EMPTY</span><button id="clear" class="key">CLEAR</button></div>
+          <div class="act"><span class="lbl">AS DATA</span><button id="copy" class="key">COPY</button></div>
+        </div>
+        <p class="toast" id="toast" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="win library" aria-label="Pattern library">
+    <header class="bar">
+      <h2>LIBRARY</h2>
+      <span class="brand"><span id="count">0</span> PATTERNS</span>
+      <input id="search" class="lcd" type="search" placeholder="SEARCH" aria-label="Search patterns" autocomplete="off">
+    </header>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filter by family"></div>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>NO PATTERNS MATCH.</p>
+  </section>
+
+  <footer class="foot">
+    <p>Read each wheel clockwise from the top. Each ring is one instrument and the dashes mark the beats. Diamonds are accents and hollow dots are ghost notes. Click a step to change it. "Simplified" patterns are reductions of grooves that vary from player to player. 12-step wheels are meters built on threes. To add a pattern, edit <code>patterns.js</code> and open a pull request.</p>
+    <p class="brand">BB DSP</p>
+  </footer>
+</div>
+
+<script src="patterns.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
