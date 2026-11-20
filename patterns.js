@@ -531,3 +531,40 @@ window.STYLE_GROUPS = [
     { style: 'Mosh', ref: 'mosh-breakdown' }
   ]}
 ];
+
+window.STYLE_GROUPS.push(
+  { id: 'rock', name: 'Rock Beats', family: 'Rock & Pop', region: 'USA / UK', tags: 'rock backbeat ride ballad grunge punk halftime four on the floor toms', styles: [
+    { style: 'Basic 8ths', ref: 'rock-basic' },
+    { style: '16th Hats', ref: 'rock-16' },
+    { style: 'Ride', bpm: 120,
+      layers: { ride: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x.......x.x.....' },
+      note: 'The basic beat moved to the ride (often the bell) to lift a chorus.' },
+    { style: 'Quarter-note Ballad', bpm: 72,
+      layers: { hat: 'x...x...x...x...', snare: BACK, kick: 'x.......x.......' },
+      note: 'Slow rock and power ballads: hi-hat on the beat, lots of space.' },
+    { style: 'Half-time', ref: 'halftime-rock' },
+    { style: 'Four-on-the-floor', ref: 'dance-rock' },
+    { style: 'Syncopated Kick', bpm: 105,
+      layers: { hat: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x..x..x...x..x..' },
+      note: 'Funk-rock: the kick pushes across the beat while the backbeat stays put.' },
+    { style: 'Open-hat Grunge', bpm: 115,
+      layers: { ohat: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x.....x.x.x.....' },
+      note: 'Simplified. Loose, washy half-open hats and a heavy backbeat: 90s alternative rock.' },
+    { style: 'Punk Drive', bpm: 170,
+      layers: { crash: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x.x.x.x.x.x.x.x.' },
+      note: 'Eighth-note kick and cymbal wash under a plain backbeat.' },
+    { style: 'Tom Groove', ref: 'tom-gallop' }
+  ]},
+  { id: 'dubstep', name: 'Dubstep', family: 'Electronic', region: 'London', tags: 'deep early brostep tearout riddim halftime', styles: [
+    { style: 'Deep / Classic', ref: 'dubstep' },
+    { style: 'Early (2-step)', bpm: 138, swing: 0.2, region: 'Croydon / South London',
+      layers: { shaker: 'oxoxoxoxoxoxoxox', ohat: '..x...x...x...x.', snare: '........x.......', kick: 'x......x..x.....' },
+      note: 'Simplified. Mid-2000s dubstep still close to garage: swung percussion, broken kick, snare on 3.' },
+    { style: 'Brostep / Tearout', bpm: 140,
+      layers: { crash: 'x...............', hat: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x.x.......x.....' },
+      note: 'Simplified. Louder and busier, with punchy kicks around the half-time snare.' },
+    { style: 'Riddim', bpm: 140,
+      layers: { hat: 'x...x...x...x...', snare: '........x.......', kick: 'x.........x..x..' },
+      note: 'Simplified. Sparse and repetitive: the drums leave room for the bass loop.' }
+  ]}
+);

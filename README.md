@@ -44,7 +44,7 @@ Genres with distinct sub-styles live in `window.STYLE_GROUPS` at the bottom of `
 Shortcut: build the pattern in the site (click steps, add Euclidean layers), press **Copy as data**, and paste the result into `patterns.js`.
 
 ## Features
-- 102 library entries across 14 families, with 11 of them (house, techno, drum & bass, UK garage, reggae, dembow, clave, samba, blasts, gallops, breakdowns) offering 40 numbered sub-styles, each drawn as a circular step diagram (one ring per instrument)
+- 98 library entries across 14 families; 13 of them (rock, house, techno, dubstep, drum & bass, UK garage, reggae, dembow, clave, samba, blasts, gallops, breakdowns) offer 54 numbered sub-styles, each drawn as a circular step diagram (one ring per instrument)
 - CIRCLE and GRID tabs: the same pattern as a wheel or as a step-sequencer grid, both clickable
 - SHAPES ONLY: hides the rings and dots so only the rhythm shapes are left
 - Variation slider (0–6): seeded ghost notes, accent moves, doubles, kick pickups and fills. Clave and bell timelines stay fixed
