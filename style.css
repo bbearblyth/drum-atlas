@@ -59,7 +59,7 @@ h1,h2{margin:0;font-weight:700;font-size:clamp(22px,2.6vw,30px);line-height:1;le
 
 /* flip digits */
 .flip{display:flex;gap:1.5px}
-.flip span{position:relative;display:grid;place-items:center;width:30px;height:46px;background:var(--lcd);color:var(--accLcd);border-radius:3px;font-size:34px;font-weight:700;line-height:1;letter-spacing:0;overflow:hidden}
+.flip span{position:relative;display:grid;place-items:center;width:30px;height:46px;background:var(--lcd);color:var(--accLcd);border-radius:3px;font-size:34px;font-weight:700;line-height:1;letter-spacing:0;overflow:hidden;padding:0 0 .105em .18em} /* BDRmono's digits sit left and low in their box: optical centring */
 .flip span::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;background:#0d0c09}
 .flip span.f{animation:flip .22s ease-out}
 .kn.small .flip span{width:24px;height:38px;font-size:27px}
