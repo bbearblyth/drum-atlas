@@ -500,6 +500,62 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') walk(-1);
 });
 
+
+/* ───────────────────────── MIDI export (Standard MIDI File, type 0) ───────────────────────── */
+const GM = { kick: 36, snare: 38, rim: 37, clap: 39, hat: 42, ohat: 46, ride: 51, crash: 49, tamb: 54, shaker: 69,
+  maracas: 70, guiro: 73, triangle: 81, cowbell: 56, clave: 75, bell: 67, congaH: 63, congaL: 64, tomH: 50, tomL: 41,
+  dum: 64, tek: 37, bayan: 41, dayan: 60, palmas: 39, cajon: 35, log: 45 };
+const MVEL = { X: 120, x: 96, o: 45 };
+let bars = 4;
+function vlq(n) { const b = [n & 127]; while ((n >>= 7)) b.unshift((n & 127) | 128); return b; }
+function toMidi(p, nBars) {
+  const PPQ = 96, stepT = PPQ / p.perBeat, barT = stepT * p.steps;
+  const evs = [];
+  p.layers.forEach((l, li) => {
+    if (muted.has(li)) return;
+    const note = GM[l.inst] || 37;
+    for (let b = 0; b < nBars; b++) [...l.s].forEach((ch, s) => {
+      if (ch === '.') return;
+      const sw = (p.steps === 16 && p.perBeat === 4 && s % 2) ? Math.round(p.swing * stepT * .66) : 0;
+      const t = b * barT + s * stepT + sw;
+      evs.push([t, 1, [0x99, note, MVEL[ch] || 96]]);
+      evs.push([t + Math.max(6, Math.round(stepT * .5)), 0, [0x89, note, 0]]);
+    });
+  });
+  evs.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const name = [...new TextEncoder().encode('Drum Atlas - ' + p.name + (level ? ' (variation ' + level + ')' : ''))];
+  const mpq = Math.round(60000000 / p.bpm);
+  const num = p.perBeat === 3 ? p.steps : Math.max(1, Math.round(p.steps / p.perBeat)), den = p.perBeat === 3 ? 3 : 2;
+  let trk = [0, 0xFF, 0x03, ...vlq(name.length), ...name,
+    0, 0xFF, 0x51, 3, mpq >> 16 & 255, mpq >> 8 & 255, mpq & 255,
+    0, 0xFF, 0x58, 4, Math.min(num, 255), den, 24, 8];
+  let last = 0;
+  evs.forEach(([t, , m]) => { trk.push(...vlq(t - last), ...m); last = t; });
+  trk.push(...vlq(Math.max(0, nBars * barT - last)), 0xFF, 0x2F, 0);
+  const len = trk.length;
+  return new Uint8Array([0x4D, 0x54, 0x68, 0x64, 0, 0, 0, 6, 0, 0, 0, 1, PPQ >> 8, PPQ & 255,
+    0x4D, 0x54, 0x72, 0x6B, len >>> 24 & 255, len >> 16 & 255, len >> 8 & 255, len & 255, ...trk]);
+}
+const midiName = () => `drum-atlas-${cur.id}${level ? '-var' + level : ''}-${cur.bpm}bpm-${bars}bar.mid`;
+$('bars').addEventListener('click', e => {
+  const b = e.target.closest('.seg'); if (!b) return; bars = +b.dataset.b;
+  $('bars').querySelectorAll('.seg').forEach(x => x.setAttribute('aria-pressed', x === b));
+});
+$('midi').addEventListener('click', () => {
+  const blob = new Blob([toMidi(cur, bars)], { type: 'audio/midi' });
+  const url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = midiName(); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  toast('MIDI SAVED: ' + midiName().toUpperCase());
+});
+$('midi').addEventListener('dragstart', e => {
+  let bin = ''; toMidi(cur, bars).forEach(b => bin += String.fromCharCode(b));
+  const data = 'data:audio/midi;base64,' + btoa(bin);
+  try { e.dataTransfer.setData('DownloadURL', `audio/midi:${midiName()}:${data}`); } catch (err) {}
+  e.dataTransfer.setData('text/uri-list', data);
+  e.dataTransfer.effectAllowed = 'copy';
+});
+
 /* ───────────────────────── library ───────────────────────── */
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
 const playIcon = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>';

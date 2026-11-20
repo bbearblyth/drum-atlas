@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Drum Atlas · BB DSP</title>
 <meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams and step sequences you can play, vary and edit. By BB DSP.">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="chassis">
@@ -81,6 +81,17 @@
           <div class="lcd strip" id="ePreview" aria-live="polite"></div>
         </div>
 
+        <div class="block">
+          <span class="lbl">EXPORT MIDI</span>
+          <div class="midi">
+            <div class="tool"><span class="lbl">BARS</span><div class="segs" id="bars">
+              <button class="seg" data-b="1" aria-pressed="false">1</button><button class="seg" data-b="4" aria-pressed="true">4</button><button class="seg" data-b="8" aria-pressed="false">8</button>
+            </div></div>
+            <button id="midi" class="key midikey" draggable="true" title="Click to download, or drag into your DAW (Chrome)">DOWNLOAD .MID</button>
+          </div>
+          <p class="hint">GENERAL MIDI DRUMS ON CHANNEL 10. INCLUDES THE CURRENT VARIATION, EDITS AND SWING. MUTED LAYERS ARE LEFT OUT.</p>
+        </div>
+
         <div class="actions">
           <div class="act"><span class="lbl">START AGAIN</span><button id="reset" class="key">RESET</button></div>
           <div class="act"><span class="lbl">EMPTY</span><button id="clear" class="key">CLEAR</button></div>
@@ -117,7 +128,7 @@
   </footer>
 </div>
 
-<script src="patterns.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="patterns.js?v=6"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
