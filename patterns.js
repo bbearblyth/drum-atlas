@@ -12,6 +12,7 @@
     swing     0–0.6, delays every second 16th (16-step patterns only)
     layers    { instrument: "step string" }  first layer = outer ring
                 x = hit   X = accent   o = ghost / soft   . = rest
+    tags      optional extra search words
     note      short context; say "simplified" when it is a reduction of a real groove
 
   Instrument keys: kick snare rim clap hat ohat ride crash tamb shaker maracas cowbell
@@ -63,7 +64,7 @@ window.PATTERNS = [
   { id: 'gallop', name: 'Gallop', family: 'Metal & Punk', region: 'UK (NWOBHM)', bpm: 150,
     layers: { crash: 'x...............', snare: '....x.......x...', kick: 'x.xxx.xxx.xxx.xx' },
     note: 'Eighth + two sixteenths on double kick, the galloping heavy-metal figure.' },
-  { id: 'breakdown', name: 'Half-time Breakdown', family: 'Metal & Punk', region: 'USA (metalcore)', bpm: 140,
+  { id: 'breakdown', name: 'Half-time Breakdown', family: 'Metal & Punk', region: 'USA (metalcore)', bpm: 140, tags: 'halftime chug',
     layers: { crash: 'x.......x.......', snare: '........x.......', kick: 'x..x..x...x..x..' },
     note: 'Snare only on beat 3; kick locks to a syncopated guitar chug.' },
 
@@ -254,5 +255,171 @@ window.PATTERNS = [
     note: 'A samba necklace pattern (Toussaint).' },
   { id: 'e9-16', name: 'E(9,16)', family: 'Euclidean timelines', region: 'Central Africa', bpm: 110,
     layers: { bell: euclid(9, 16) },
-    note: 'Used in rhythms of the Central African Republic (Toussaint).' }
+    note: 'Used in rhythms of the Central African Republic (Toussaint).' },
+  // ───────── more Rock & Pop ─────────
+  { id: 'motorik', name: 'Motorik', family: 'Rock & Pop', region: 'Düsseldorf, Germany', bpm: 130, tags: 'krautrock neu can apache',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.....x.x.......' },
+    note: 'Simplified. The hypnotic Krautrock pulse (Neu!, La Düsseldorf): dead-straight eighths, no fills, the kick nudging the "and" of 2.' },
+  { id: 'halftime-rock', name: 'Half-time Groove', family: 'Rock & Pop', region: 'USA / UK', bpm: 140, tags: 'halftime half time feel',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x.....x...x.....' },
+    note: 'One backbeat per bar on 3: the song feels half as fast while the hats keep the real tempo.' },
+  { id: 'dance-rock', name: 'Four-on-the-floor Rock', family: 'Rock & Pop', region: 'UK / New York', bpm: 125, tags: 'indie dance punk funk post-punk disco rock',
+    layers: { hat: 'xoxoxoxoxoxoxoxo', snare: '....x.......x...', kick: 'x...x...x...x...' },
+    note: 'Disco kick under a rock backbeat: the post-punk and indie-dance staple.' },
+  { id: 'paradiddle', name: 'Paradiddle Groove', family: 'Rock & Pop', region: 'Global', bpm: 100, tags: 'rudiment linear',
+    layers: { hat: 'x.xx.x..x.xx.x..', snare: '.o..X.oo.o..X.oo', kick: 'x.......x.......' },
+    note: 'RLRR LRLL split between hi-hat (right) and snare (left), backbeat accented on 2 and 4.' },
+  { id: 'tom-gallop', name: 'Tom-tom Gallop', family: 'Rock & Pop', region: 'USA (surf rock)', bpm: 150, tags: 'surf toms tribal',
+    layers: { snare: '....x.......x...', tomL: 'x.xxx.xxx.xxx.xx' },
+    note: 'Simplified. A galloping figure on the floor tom with a backbeat on top, as in surf-rock drum features.' },
+  { id: 'ballad-128', name: '12/8 Ballad', family: 'Rock & Pop', region: 'USA (doo-wop, soul)', bpm: 66, steps: 12, perBeat: 3, tags: 'six eight 6/8 triplet slow',
+    layers: { hat: 'XxxXxxXxxXxx', snare: '...x.....x..', kick: 'x.....x..x..' },
+    note: 'Four dotted beats of three triplets each; the slow-dance feel of doo-wop and soul ballads.' },
+  { id: 'boogie', name: 'Boogie Shuffle', family: 'Rock & Pop', region: 'USA', bpm: 140, steps: 12, perBeat: 3, tags: 'shuffle rock and roll boogie woogie',
+    layers: { hat: 'x.xx.xx.xx.x', snare: '...x.....x..', kick: 'x..x..x..x..' },
+    note: 'The blues shuffle with four-on-the-floor kick: rock & roll and boogie rock.' },
+
+  // ───────── more Metal & Punk ─────────
+  { id: 'd-beat', name: 'D-beat', family: 'Metal & Punk', region: 'UK (Discharge)', bpm: 170, tags: 'crust hardcore punk dbeat',
+    layers: { crash: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.....x.x.......' },
+    note: 'Kick on 1, the "and" of 2 and 3, snare on 2 and 4, washing crash. Named after Discharge.' },
+  { id: 'double-16', name: 'Double-bass 16ths', family: 'Metal & Punk', region: 'Global', bpm: 160, tags: 'double kick thrash',
+    layers: { crash: 'x...x...x...x...', snare: '....x.......x...', kick: 'xxxxxxxxxxxxxxxx' },
+    note: 'Continuous sixteenths on two kick pedals under a plain backbeat.' },
+  { id: 'thrash-skank', name: 'Thrash Double-kick Skank', family: 'Metal & Punk', region: 'USA (Bay Area thrash)', bpm: 190, tags: 'thrash beat',
+    layers: { ride: 'x...x...x...x...', snare: '..x...x...x...x.', kick: 'xxxxxxxxxxxxxxxx' },
+    note: 'The punk skank beat with the kick filled in to sixteenths.' },
+  { id: 'reverse-gallop', name: 'Reverse Gallop', family: 'Metal & Punk', region: 'Global', bpm: 150, tags: 'gallop',
+    layers: { crash: 'x...............', snare: '....x.......x...', kick: 'xx.xxx.xxx.xxx.x' },
+    note: 'Two sixteenths then an eighth: the gallop turned around.' },
+  { id: 'hammer-blast', name: 'Hammer Blast', family: 'Metal & Punk', region: 'Global (death metal)', bpm: 220, tags: 'blast beat',
+    layers: { ride: 'x.x.x.x.x.x.x.x.', snare: 'x.x.x.x.x.x.x.x.', kick: 'x.x.x.x.x.x.x.x.' },
+    note: 'Kick, snare and cymbal all together on every note.' },
+  { id: 'bomb-blast', name: 'Bomb Blast', family: 'Metal & Punk', region: 'Global (extreme metal)', bpm: 180, tags: 'blast beat',
+    layers: { crash: 'x.x.x.x.x.x.x.x.', snare: 'x.x.x.x.x.x.x.x.', kick: 'xxxxxxxxxxxxxxxx' },
+    note: 'Sixteenth double-kick under eighth-note snare and cymbal.' },
+  { id: 'djent', name: 'Djent Polymeter (3 over 4)', family: 'Metal & Punk', region: 'Sweden / global', bpm: 120, tags: 'polyrhythm polymeter progressive halftime',
+    layers: { crash: 'x...x...x...x...', snare: '........x.......', kick: 'x..x..x..x..x..x' },
+    note: 'Simplified. Kick and guitar in groups of three against a half-time backbeat; here the cycle resets every bar.' },
+  { id: 'mosh-breakdown', name: 'Hardcore Mosh Breakdown', family: 'Metal & Punk', region: 'USA (hardcore, metalcore)', bpm: 130, tags: 'halftime breakdown chug beatdown',
+    layers: { crash: 'x.......x.......', snare: '........x.......', kick: 'x.x...x.x.x...x.' },
+    note: 'Half-time snare; the kick doubles the open-string chugs.' },
+  { id: 'doom', name: 'Doom / Sludge Half-time', family: 'Metal & Punk', region: 'UK / USA', bpm: 62, tags: 'doom sludge stoner halftime slow',
+    layers: { ride: 'x.......x.......', snare: '........x.......', kick: 'x.........x.....' },
+    note: 'Very slow, very heavy: space is the point.' },
+  { id: 'nu-metal', name: 'Nu-metal Bounce', family: 'Metal & Punk', region: 'USA', bpm: 100, swing: 0.2, tags: 'nu metal hip hop',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x..x..x...x.x...' },
+    note: 'Simplified. Hip-hop swing and syncopated kick under detuned riffs.' },
+  { id: 'pop-punk', name: 'Pop-punk Drive', family: 'Metal & Punk', region: 'USA', bpm: 180, tags: 'punk',
+    layers: { crash: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.x...x.x.x...x.' },
+    note: 'Simplified. Fast backbeat with busy kick and open-crash eighths.' },
+
+  // ───────── more Funk, Soul & Disco ─────────
+  { id: 'linear-funk', name: 'Linear Funk', family: 'Funk, Soul & Disco', region: 'USA', bpm: 96, tags: 'linear gospel chops',
+    layers: { hat: '..xx.x..x.x..xxx', snare: '....X..o.o..X...', kick: 'xx....x....x....' },
+    note: 'No two limbs ever play together: every sixteenth belongs to exactly one voice.' },
+  { id: 'purdie-shuffle', name: 'Half-time Shuffle', family: 'Funk, Soul & Disco', region: 'USA', bpm: 85, steps: 12, perBeat: 3, tags: 'purdie porcaro rosanna halftime',
+    layers: { hat: 'x.xx.xx.xx.x', snare: '..o..oX.o..o', kick: 'x....x......' },
+    note: 'Simplified. In the Purdie / Porcaro tradition: triplet hats, ghosts on the last triplet, backbeat on 3.' },
+
+  // ───────── more Hip-Hop & Breaks ─────────
+  { id: 'neo-soul', name: 'Neo-soul (Dilla feel)', family: 'Hip-Hop & Breaks', region: 'Detroit', bpm: 88, swing: 0.45, tags: 'dilla drunk swing',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x......x..x..x..' },
+    note: 'Simplified. Loose, "drunk" quantising: the sixteenths lean hard toward triplets.' },
+  { id: 'g-funk', name: 'G-funk', family: 'Hip-Hop & Breaks', region: 'Los Angeles', bpm: 92, swing: 0.25, tags: 'west coast',
+    layers: { hat: 'xoxoxoxoxoxoxoxo', clap: '....x.......x...', kick: 'x.....x...x.....' },
+    note: 'Simplified. Laid-back West Coast funk with a clap backbeat.' },
+
+  // ───────── more Electronic ─────────
+  { id: 'halftime-dnb', name: 'Halftime (DnB)', family: 'Electronic', region: 'UK', bpm: 172, tags: 'halftime half time drum and bass',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x.........x.....' },
+    note: 'Drum & bass tempo with a dubstep-style snare on 3.' },
+  { id: 'footwork', name: 'Footwork / Juke', family: 'Electronic', region: 'Chicago', bpm: 160, tags: 'juke',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', clap: '....x.......x...', kick: 'x..x..x.x..x..x.' },
+    note: 'Simplified. 3-3-2 kick figures at 160, often with triplet hats.' },
+  { id: 'moombahton', name: 'Moombahton', family: 'Electronic', region: 'Washington DC', bpm: 108, tags: 'dembow reggaeton',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '...x..x....x..x.', kick: 'x...x...x...x...' },
+    note: 'Dembow slowed to 108 with house drums.' },
+  { id: 'big-beat', name: 'Big Beat', family: 'Electronic', region: 'UK', bpm: 105, tags: 'breakbeat breaks',
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x..x.x..x...', kick: 'x.........x.....' },
+    note: 'Simplified. Fat funk breaks looped at rock volume.' },
+  { id: 'trance', name: 'Trance', family: 'Electronic', region: 'Germany / Netherlands', bpm: 138,
+    layers: { hat: 'oooooooooooooooo', ohat: '..x...x...x...x.', clap: '....x.......x...', kick: 'x...x...x...x...' },
+    note: 'Four-on-the-floor, off-beat open hat, rolling sixteenths underneath.' },
+  { id: 'minimal', name: 'Minimal Techno', family: 'Electronic', region: 'Berlin / Cologne', bpm: 124,
+    layers: { ohat: '..x...x...x...x.', rim: '...x......x..x..', kick: 'x...x...x...x...' },
+    note: 'Stripped back: kick, off-beat hat and a few clicks.' },
+  { id: 'gabber', name: 'Gabber', family: 'Electronic', region: 'Rotterdam', bpm: 180, tags: 'hardcore',
+    layers: { ohat: '..x...x...x...x.', kick: 'x...x...x...x...' },
+    note: 'A distorted kick on every beat at 160–200 BPM.' },
+
+  // ───────── more Latin America ─────────
+  { id: 'cha-cha', name: 'Cha-cha-chá', family: 'Latin America', region: 'Cuba', bpm: 116,
+    layers: { cowbell: 'x...x...x...x...', guiro: 'x...x...x...x.x.', congaL: '......x.......xx' },
+    note: 'Simplified. The "cha-cha" on 4 and 4-and gives the dance its name.' },
+  { id: 'samba-reggae', name: 'Samba-reggae', family: 'Latin America', region: 'Salvador, Brazil', bpm: 100,
+    layers: { snare: 'x..x..x...x..x..', tomL: 'x...x...x...x...' },
+    note: 'Simplified. Bloco-afro rhythm: surdos on the beat, snare on the bossa clave.' },
+  { id: 'sesquialtera', name: 'Sesquiáltera (6/8 + 3/4)', family: 'Latin America', region: 'Mexico / Venezuela / Colombia', bpm: 70, steps: 12, perBeat: 3, tags: 'huapango joropo hemiola',
+    layers: { cajon: 'x..x..x.x.x.', kick: 'x.....x.....' },
+    note: 'One bar in two dotted beats, the next in three: the hemiola behind huapango and joropo.' },
+
+  // ───────── more Caribbean ─────────
+  { id: 'dancehall', name: 'Dancehall', family: 'Caribbean', region: 'Jamaica', bpm: 95,
+    layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x..x..x.x..x..x.' },
+    note: 'Simplified. Digital-era riddim with the 3-3-2 kick.' },
+
+  // ───────── more Africa ─────────
+  { id: 'fume-fume', name: 'Fume-fume Bell', family: 'West & Central Africa', region: 'Ghana', bpm: 100, steps: 12, perBeat: 3,
+    layers: { bell: 'x.x.x..x.x..', kick: 'x..x..x..x..' },
+    note: 'Five-stroke 12-pulse timeline; one of the patterns Toussaint analyses alongside the standard bell.' },
+  { id: 'kwaito', name: 'Kwaito', family: 'Southern Africa', region: 'Soweto, South Africa', bpm: 110,
+    layers: { ohat: '..x...x...x...x.', clap: '....x.......x...', kick: 'x...x...x...x...' },
+    note: 'Simplified. House slowed down with heavy bass and chanted vocals.' },
+  { id: 'afro-house', name: 'Afro House', family: 'Southern Africa', region: 'South Africa', bpm: 122,
+    layers: { shaker: 'xoxoxoxoxoxoxoxo', congaH: '...x..x....x.x..', congaL: '......x.......x.', kick: 'x...x...x...x...' },
+    note: 'Simplified. Four-on-the-floor with interlocking percussion.' },
+
+  // ───────── more Middle East & North Africa ─────────
+  { id: 'wahda', name: 'Wahda', family: 'Middle East & North Africa', region: 'Egypt', bpm: 90,
+    layers: { tek: '..o...o.x...o...', dum: 'x...............' },
+    note: 'Simplified. One dum, one tek, ka ghosts in between.' },
+  { id: 'gnawa', name: 'Gnawa Qraqeb', family: 'Middle East & North Africa', region: 'Morocco', bpm: 100, steps: 12, perBeat: 3,
+    layers: { tamb: 'x.xx.xx.xx.x', tomL: 'x.....x.....' },
+    note: 'Simplified. The iron castanets play a lopsided triplet that sits between straight and swung.' },
+
+  // ───────── more South Asia ─────────
+  { id: 'ektaal', name: 'Ektaal', family: 'South Asia', region: 'North India', bpm: 100, steps: 12, perBeat: 1,
+    layers: { dayan: 'xxxxxx.xxxxx', bayan: 'XxX...x.x.x.' },
+    note: 'Simplified. 12 matras: dhin dhin dhage tirakita | tu na | kat ta | dhage tirakita | dhi na.' },
+  { id: 'adi-tala', name: 'Adi Tala (kriya)', family: 'South Asia', region: 'South India (Carnatic)', bpm: 120, perBeat: 2,
+    layers: { palmas: 'X.......x...x...', triangle: '..x.x.x.........', tek: '..........x...x.' },
+    note: 'Keeping the 8-beat tala (4+2+2): clap and three finger counts, then clap–wave twice. This is how the tala is counted, not a drum part.' },
+
+  // ───────── more Europe ─────────
+  { id: 'freylekhs', name: 'Freylekhs', family: 'Europe', region: 'Eastern Europe (Klezmer)', bpm: 130,
+    layers: { snare: '..x...x...x...x.', kick: 'x..x..x.x..x..x.' },
+    note: 'The 3-3-2 bulgar bass under an off-beat "oom-pah".' },
+  { id: 'irish-reel', name: 'Irish Reel (bodhrán)', family: 'Europe', region: 'Ireland', bpm: 110,
+    layers: { tomL: 'XxoxXxoxXxoxXxox' },
+    note: 'Simplified. Continuous sixteenths with accents on each beat.' },
+  { id: 'irish-jig', name: 'Irish Jig (bodhrán)', family: 'Europe', region: 'Ireland', bpm: 116, steps: 12, perBeat: 3,
+    layers: { tomL: 'XoxxoxXoxxox' },
+    note: 'Simplified. 6/8 in groups of three, twice per wheel.' },
+  { id: 'tarantella', name: 'Tarantella', family: 'Europe', region: 'Southern Italy', bpm: 140, steps: 12, perBeat: 3,
+    layers: { tamb: 'XxxXxxXxxXxx', kick: 'x..x..x..x..' },
+    note: 'Simplified. Driving 6/8 tambourine.' },
+
+  // ───────── more Jazz & Blues ─────────
+  { id: 'two-feel', name: 'Jazz Two-feel', family: 'Jazz & Blues', region: 'USA', bpm: 120, steps: 12, perBeat: 3,
+    layers: { ride: 'x..x.xx..x.x', hat: '...x.....x..', kick: 'x.....x.....' },
+    note: 'Swing ride with the bass (and kick) on 1 and 3.' },
+
+  // ───────── more timelines ─────────
+  { id: 'e5-12', name: 'E(5,12)', family: 'Euclidean timelines', region: 'West Africa / global', bpm: 100, steps: 12, perBeat: 3,
+    layers: { bell: euclid(5, 12) },
+    note: 'Five strokes over twelve pulses, as evenly as possible.' },
+  { id: 'e7-12', name: 'E(7,12)', family: 'Euclidean timelines', region: 'West Africa', bpm: 100, steps: 12, perBeat: 3,
+    layers: { bell: euclid(7, 12) },
+    note: 'A rotation of the standard bell pattern: the Euclidean algorithm finds it.' }
 ];

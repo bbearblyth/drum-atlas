@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Drum Atlas · BB DSP</title>
-<meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams you can play and edit. By BB DSP.">
-<link rel="stylesheet" href="style.css">
+<meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams and step sequences you can play, vary and edit. By BB DSP.">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <div class="chassis">
@@ -16,15 +16,30 @@
         <g fill="none" stroke="#B3B3B3" stroke-width="4.5" stroke-linejoin="miter" stroke-linecap="butt">
           <path d="M12 9 L20 1 L28 9"/><path d="M31 12 L39 20 L31 28"/><path d="M28 31 L20 39 L12 31"/><path d="M9 28 L1 20 L9 12"/>
         </g>
-        <path id="logoDiamond" d="M20 11 L29 20 L20 29 L11 20Z" fill="var(--acc)"/>
+        <path d="M20 11 L29 20 L20 29 L11 20Z" fill="var(--acc)"/>
       </svg>
       <h1>DRUM ATLAS</h1>
       <span class="brand">BB DSP</span>
-      <button id="play" class="key lit-able" aria-label="Play">PLAY</button>
+      <div class="nav">
+        <button id="prev" class="key" aria-label="Previous pattern" title="Previous (←)">&lt; PREV</button>
+        <button id="next" class="key" aria-label="Next pattern" title="Next (→)">NEXT &gt;</button>
+        <button id="rand" class="key">RANDOM</button>
+        <button id="play" class="key play" aria-label="Play" title="Play / stop (space)">PLAY</button>
+      </div>
     </header>
 
     <div class="stage-grid">
-      <div class="fig big" id="bigFig"></div>
+      <div class="viewcol">
+        <div class="viewbar">
+          <div class="tabs" role="tablist" aria-label="View">
+            <button class="seg" role="tab" id="tabCircle" aria-selected="true" aria-pressed="true" aria-controls="bigFig">CIRCLE</button>
+            <button class="seg" role="tab" id="tabGrid" aria-selected="false" aria-pressed="false" aria-controls="gridView">GRID</button>
+          </div>
+          <button class="seg" id="pure" aria-pressed="false" title="Hide the rings and dots and show only the shapes">SHAPES ONLY</button>
+        </div>
+        <div class="fig big" id="bigFig" role="tabpanel" aria-labelledby="tabCircle"></div>
+        <div class="seqv" id="gridView" role="tabpanel" aria-labelledby="tabGrid" hidden></div>
+      </div>
 
       <div class="panel">
         <div class="lcds">
@@ -38,6 +53,16 @@
           <div class="kn"><span class="lbl">TEMPO BPM</span><div class="kwrap"><div class="knob" id="kBpm"></div><div class="flip" id="fBpm"></div></div></div>
           <div class="kn" id="swingWrap"><span class="lbl">SWING %</span><div class="kwrap"><div class="knob" id="kSwing"></div><div class="flip" id="fSwing"></div></div></div>
           <div class="kn"><span class="lbl">STEPS</span><div class="kwrap"><div class="flip" id="fSteps"></div></div></div>
+        </div>
+
+        <div class="block vary">
+          <label class="lbl" for="vary">VARIATION</label>
+          <div class="vrow">
+            <input id="vary" class="lin" type="range" min="0" max="6" step="1" value="0" aria-describedby="varyName">
+            <div class="flip" id="fVary"></div>
+          </div>
+          <div class="vnames" aria-hidden="true"><span>ORIGINAL</span><span>WILD</span></div>
+          <div class="lcd strip" id="varyName" aria-live="polite">ORIGINAL</div>
         </div>
 
         <div class="block">
@@ -69,21 +94,30 @@
   <section class="win library" aria-label="Pattern library">
     <header class="bar">
       <h2>LIBRARY</h2>
-      <span class="brand"><span id="count">0</span> PATTERNS</span>
-      <input id="search" class="lcd" type="search" placeholder="SEARCH" aria-label="Search patterns" autocomplete="off">
+      <span class="brand" id="count">0 PATTERNS</span>
     </header>
+    <div class="tools">
+      <input id="search" class="lcd" type="search" placeholder="SEARCH: HALFTIME, CLAVE, KICK, 12…" aria-label="Search patterns" autocomplete="off">
+      <div class="tool"><span class="lbl">SORT</span><div class="dd"><select id="sort" aria-label="Sort">
+        <option value="family">BY FAMILY</option><option value="az">A – Z</option><option value="slow">SLOWEST FIRST</option><option value="fast">FASTEST FIRST</option><option value="region">BY REGION</option>
+      </select></div></div>
+      <div class="tool"><span class="lbl">STEPS</span><div class="segs" id="stepsF">
+        <button class="seg" data-s="all" aria-pressed="true">ALL</button><button class="seg" data-s="16" aria-pressed="false">16</button><button class="seg" data-s="12" aria-pressed="false">12</button>
+      </div></div>
+      <button id="clearF" class="key" hidden>CLEAR FILTERS</button>
+    </div>
     <div class="chips" id="chips" role="toolbar" aria-label="Filter by family"></div>
-    <div class="grid" id="grid"></div>
-    <p class="empty" id="empty" hidden>NO PATTERNS MATCH.</p>
+    <div id="lib"></div>
+    <p class="empty" id="empty" hidden>NOTHING MATCHES. TRY ANOTHER WORD OR CLEAR THE FILTERS.</p>
   </section>
 
   <footer class="foot">
-    <p>Read each wheel clockwise from the top. Each ring is one instrument and the dashes mark the beats. Diamonds are accents and hollow dots are ghost notes. Click a step to change it. "Simplified" patterns are reductions of grooves that vary from player to player. 12-step wheels are meters built on threes. To add a pattern, edit <code>patterns.js</code> and open a pull request.</p>
+    <p>Read each wheel clockwise from the top. Each ring is one instrument and the dashes mark the beats. Diamonds are accents and hollow dots are ghost notes. Click a step in either view to change it. Keys: space plays and stops, ← and → step through the patterns. Variations keep clave and bell timelines intact, adding ghosts, pickups, doubles and fills elsewhere. "Simplified" patterns are reductions of grooves that vary from player to player. To add a pattern, edit <code>patterns.js</code>.</p>
     <p class="brand">BB DSP</p>
   </footer>
 </div>
 
-<script src="patterns.js"></script>
-<script src="app.js"></script>
+<script src="patterns.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

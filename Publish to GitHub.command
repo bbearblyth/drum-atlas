@@ -27,17 +27,24 @@ gh auth setup-git >/dev/null 2>&1 || true
 OWNER="$(gh api user -q .login)"
 echo "Signed in as $OWNER"
 
-# 3. Commit
+# 3. Commit (on top of whatever is already on GitHub, so updates from a fresh unzip still push)
 if [ ! -d .git ]; then
   git init -q
   git checkout -q -b main 2>/dev/null || git branch -M main
 fi
-git add -A
-git -c user.name="$OWNER" -c user.email="$OWNER@users.noreply.github.com" commit -q -m "Drum Atlas" || echo "(nothing new to commit)"
-
-# 4. Create the repo and push (or just push if it already exists)
+EXISTS=0
 if gh repo view "$OWNER/$REPO" >/dev/null 2>&1; then
+  EXISTS=1
   git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://github.com/$OWNER/$REPO.git"
+  if git fetch -q origin main 2>/dev/null; then
+    git reset -q --soft FETCH_HEAD   # keep these files, adopt GitHub's history
+  fi
+fi
+git add -A
+git -c user.name="$OWNER" -c user.email="$OWNER@users.noreply.github.com" commit -q -m "Update Drum Atlas" || echo "(nothing new to commit)"
+
+# 4. Create the repo or push the update
+if [ "$EXISTS" = 1 ]; then
   git push -u origin main
 else
   gh repo create "$REPO" --public --source=. --remote=origin --push \

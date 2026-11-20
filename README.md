@@ -41,9 +41,12 @@ All data is in `patterns.js`. Add an object to `window.PATTERNS`:
 Shortcut: build the pattern in the site (click steps, add Euclidean layers), press **Copy as data**, and paste the result into `patterns.js`.
 
 ## Features
-- Circular step diagram with one ring per instrument and polygons joining the hits
-- Sounds synthesised with the Web Audio API (no samples), with tempo and swing controls
-- Click a step to cycle it through hit, accent, ghost and rest
-- Automatic Euclidean detection: each layer is labelled `E(k,n)` when it is maximally even
-- Euclidean layer generator (hits + rotation)
-- Filter by family, search, and a shareable link per pattern
+- 113 patterns across 14 families, each drawn as a circular step diagram (one ring per instrument)
+- CIRCLE and GRID tabs: the same pattern as a wheel or as a step-sequencer grid, both clickable
+- SHAPES ONLY: hides the rings and dots so only the rhythm shapes are left
+- Variation slider (0–6): seeded ghost notes, accent moves, doubles, kick pickups and fills. Clave and bell timelines stay fixed
+- Drum sounds made in the browser with the Web Audio API, plus tempo and swing knobs
+- Euclidean labels and a Euclidean layer generator
+- Library grouped by family with search (spelling-tolerant: "halftime" finds "half-time"), sorting, a steps filter and a play button on each card
+- PREV / NEXT / RANDOM and keyboard shortcuts (space, ← →)
+- Styled after the BB DSP plugins (LookAndFeelTE, House drawing kit, BDRmono 2006)
