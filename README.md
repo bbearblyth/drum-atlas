@@ -38,10 +38,13 @@ All data is in `patterns.js`. Add an object to `window.PATTERNS`:
 - `family` must be one of `window.FAMILIES`. Add a new family there if needed.
 - Instruments: `kick snare rim clap hat ohat ride crash tamb shaker maracas guiro triangle cowbell clave bell congaH congaL tomH tomL dum tek bayan dayan palmas cajon log`.
 
+### Styles (sub-genres)
+Genres with distinct sub-styles live in `window.STYLE_GROUPS` at the bottom of `patterns.js`. Each group appears once in the library with a numbered STYLE selector. A style either points at an existing pattern (`{ style: 'Detroit', ref: 'techno' }`) or defines its own layers (`{ style: 'Berlin', bpm: 132, layers: {...}, note: '...' }`). Patterns pulled in with `ref` leave the main list, and their old links (e.g. `#one-drop`) redirect to the style.
+
 Shortcut: build the pattern in the site (click steps, add Euclidean layers), press **Copy as data**, and paste the result into `patterns.js`.
 
 ## Features
-- 113 patterns across 14 families, each drawn as a circular step diagram (one ring per instrument)
+- 102 library entries across 14 families, with 11 of them (house, techno, drum & bass, UK garage, reggae, dembow, clave, samba, blasts, gallops, breakdowns) offering 40 numbered sub-styles, each drawn as a circular step diagram (one ring per instrument)
 - CIRCLE and GRID tabs: the same pattern as a wheel or as a step-sequencer grid, both clickable
 - SHAPES ONLY: hides the rings and dots so only the rhythm shapes are left
 - Variation slider (0–6): seeded ghost notes, accent moves, doubles, kick pickups and fills. Clave and bell timelines stay fixed

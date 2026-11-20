@@ -131,8 +131,33 @@ function normalise(p) {
     })
   };
 }
-const ALL = window.PATTERNS.map(normalise);
-const byId = Object.fromEntries(ALL.map(p => [p.id, p]));
+/* style groups: one library entry, several numbered styles (see STYLE_GROUPS in patterns.js) */
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const rawById = Object.fromEntries(window.PATTERNS.map(p => [p.id, p]));
+const ALIASES = {}, pulled = new Set(), groupAt = {}, loose = [];
+(window.STYLE_GROUPS || []).forEach(g => {
+  const styles = g.styles.map(st => {
+    const src = st.ref ? rawById[st.ref] : null;
+    if (st.ref && !src) { console.warn('STYLE_GROUPS: missing ref', st.ref); return null; }
+    if (src) pulled.add(src.id);
+    const id = g.id + '--' + slug(st.style);
+    if (src && src.id !== g.id) ALIASES[src.id] = id;
+    const { ref, ...own } = st;
+    return normalise({ family: g.family, region: g.region, ...(src || {}), ...own, layers: own.layers || src.layers,
+      id, name: g.name, style: st.style, group: g.id, tags: [g.tags, src && src.tags].filter(Boolean).join(' ') });
+  }).filter(Boolean);
+  if (!styles.length) return;
+  styles.forEach((s, i) => s.styleIdx = i);
+  const grp = { ...styles[0], id: g.id, name: g.name, family: g.family, region: g.region, styles, group: null, style: null };
+  const first = g.styles.find(s => s.ref && rawById[s.ref]);
+  if (first) groupAt[first.ref] = grp; else loose.push(grp);
+});
+const ALL = [];
+window.PATTERNS.forEach(p => { if (groupAt[p.id]) ALL.push(groupAt[p.id]); else if (!pulled.has(p.id)) ALL.push(normalise(p)); });
+ALL.push(...loose);
+const byId = {};
+ALL.forEach(p => { byId[p.id] = p; (p.styles || []).forEach(s => byId[s.id] = s); });
+const entryOf = p => byId[p.group] || p;   // the library entry a pattern or style belongs to
 const clone = p => ({ ...p, layers: p.layers.map(l => ({ ...l })) });
 
 function euclidName(s) {
@@ -345,7 +370,10 @@ function setLevel(v, redraw = true) {
 $('vary').addEventListener('input', e => setLevel(+e.target.value));
 
 function load(id, scroll) {
-  base = byId[id] || ALL[0];
+  id = ALIASES[id] || id;
+  let node = byId[id] || ALL[0];
+  if (node.styles) node = node.styles[0];
+  base = node;
   cur = clone(base); src = cur.layers.map(l => ({ ...l })); muted = new Set();
   kBpm.set(cur.bpm); kSwing.set(Math.round(cur.swing * 100));
   kHits.setRange(1, cur.steps); kRot.setRange(0, cur.steps - 1);
@@ -353,7 +381,8 @@ function load(id, scroll) {
   setFlip($('fSteps'), cur.steps, 2);
   setLevel(0, false);
   drawStage();
-  document.querySelectorAll('.card').forEach(c => c.classList.toggle('sel', c.dataset.id === base.id));
+  document.querySelectorAll('.card').forEach(c => c.classList.toggle('sel', c.dataset.id === entryOf(base).id));
+  drawStyles();
   try { history.replaceState(null, '', '#' + base.id); } catch (e) {}
   if (scroll) $('bigFig').closest('.stage').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
 }
@@ -364,6 +393,14 @@ function commit() {
   if (level) { toast('EDIT KEPT. VARIATION RESET TO 0'); setLevel(0, false); }
   drawStage();
 }
+
+function drawStyles() {
+  const g = entryOf(base), list = g.styles || [];
+  $('styleBlock').hidden = list.length < 2;
+  $('styleSegs').innerHTML = list.map((s, i) =>
+    `<button class="seg" data-id="${s.id}" aria-pressed="${s.id === base.id}"><b>${i + 1}</b> ${s.style.toUpperCase()}</button>`).join('');
+}
+$('styleSegs').addEventListener('click', e => { const b = e.target.closest('.seg'); if (b && b.dataset.id !== base.id) load(b.dataset.id); });
 
 function setView(v) {
   view = v;
@@ -384,7 +421,7 @@ $('pure').onclick = () => {
 function drawStage() {
   $('bigFig').innerHTML = wheel(cur, { big: true, muted, pure });
   $('gridView').innerHTML = seqGrid(cur, muted);
-  $('pName').textContent = cur.name.toUpperCase();
+  $('pName').textContent = (cur.style ? cur.name + ' · ' + cur.style : cur.name).toUpperCase();
   $('pFamily').textContent = cur.family.toUpperCase();
   $('pRegion').textContent = cur.region.toUpperCase();
   $('pNote').textContent = cur.note || '';
@@ -437,12 +474,12 @@ $('copy').onclick = async () => {
 /* prev / next / random walk the library as currently filtered and sorted */
 function walk(dir) {
   const list = visible.length ? visible : ALL;
-  const i = list.findIndex(p => p.id === base.id);
+  const i = list.findIndex(p => p.id === entryOf(base).id);
   load(list[(i + dir + list.length) % list.length].id);
 }
 $('prev').onclick = () => walk(-1);
 $('next').onclick = () => walk(1);
-$('rand').onclick = () => { const list = visible.length ? visible : ALL; let p; do { p = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && p.id === base.id); load(p.id); };
+$('rand').onclick = () => { const list = visible.length ? visible : ALL; let p; do { p = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && p.id === entryOf(base).id); load(p.id); };
 
 /* ───────────────────────── sequencer ───────────────────────── */
 let playing = false, timer, nextT, stepN, queue = [], last = null, lastCol = -1;
@@ -561,9 +598,10 @@ const norm = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
 const playIcon = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>';
 function card(p) {
   const c = FAM_COL[p.family] || P.gold;
-  return `<div class="card${base && p.id === base.id ? ' sel' : ''}" data-id="${p.id}" style="--c:${c}">
+  const ns = (p.styles || []).length;
+  return `<div class="card${base && p.id === entryOf(base).id ? ' sel' : ''}" data-id="${p.id}" style="--c:${c}">
     <button class="open" data-id="${p.id}" aria-label="Open ${p.name}">
-      <span class="ch">${euclidIcon(isLight(c) ? HOUSE.ink : c)}<b>${p.name.toUpperCase()}</b></span>
+      <span class="ch">${euclidIcon(isLight(c) ? HOUSE.ink : c)}<b>${p.name.toUpperCase()}</b>${ns > 1 ? `<i class="nst">${ns} STYLES</i>` : ''}</span>
       <span class="fig">${wheel(p, { pure })}</span>
     </button>
     <div class="cf"><span>${p.region.toUpperCase()} · ${p.bpm} BPM${p.steps !== 16 ? ' · ' + p.steps : ''}</span>
@@ -578,7 +616,8 @@ function chips() {
 function renderLib() {
   const q = norm(query);
   visible = ALL.filter(p => (family === 'All' || p.family === family) && (stepsF === 'all' || String(p.steps) === stepsF) &&
-    (!q || norm([p.name, p.region, p.family, p.note, p.tags || '', p.steps + 'steps', ...p.layers.map(l => lab(l.inst))].join(' ')).includes(q)));
+    (!q || norm([p.name, p.region, p.family, p.note, p.tags || '', p.steps + 'steps', ...p.layers.map(l => lab(l.inst)),
+      ...(p.styles || []).map(s => [s.style, s.region, s.note, s.tags || ''].join(' '))].join(' ')).includes(q)));
   const sorters = {
     family: (a, b) => window.FAMILIES.indexOf(a.family) - window.FAMILIES.indexOf(b.family),
     az: (a, b) => a.name.localeCompare(b.name), slow: (a, b) => a.bpm - b.bpm, fast: (a, b) => b.bpm - a.bpm,
@@ -615,7 +654,7 @@ $('lib').addEventListener('click', e => {
   if (pl) { load(pl.dataset.id, true); if (!playing) setPlaying(true); return; }
   const o = e.target.closest('.open'); if (o) load(o.dataset.id, true);
 });
-window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (byId[id] && id !== base.id) load(id); });
+window.addEventListener('hashchange', () => { const id = ALIASES[location.hash.slice(1)] || location.hash.slice(1); if (byId[id] && id !== base.id) load(id); });
 
 $('pure').setAttribute('aria-pressed', pure);
 setView(view);

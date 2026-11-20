@@ -423,3 +423,111 @@ window.PATTERNS = [
     layers: { bell: euclid(7, 12) },
     note: 'A rotation of the standard bell pattern: the Euclidean algorithm finds it.' }
 ];
+
+/*
+  STYLE GROUPS
+  -------------
+  Genres with distinct sub-styles appear once in the library with a STYLE
+  selector. A style either points at an existing pattern above ({ style, ref })
+  or defines its own layers ({ style, layers, bpm, ... }). Patterns pulled in
+  by `ref` leave the main list, and their old links redirect to the style.
+*/
+const FOUR = 'x...x...x...x...', OFF = '..x...x...x...x.', BACK = '....x.......x...';
+window.STYLE_GROUPS = [
+  { id: 'house', name: 'House', family: 'Electronic', region: 'Chicago / New York / global', tags: 'deep tech french disco garage progressive', styles: [
+    { style: 'Chicago', ref: 'house' },
+    { style: 'Deep', bpm: 120, swing: 0.15, region: 'Chicago / New Jersey',
+      layers: { shaker: 'oxoxoxoxoxoxoxox', ohat: OFF, rim: '...x......x.....', clap: BACK, kick: FOUR },
+      note: 'Simplified. Slower and warmer: swung shakers and rimshots instead of busy hats.' },
+    { style: 'NY Garage', bpm: 122, swing: 0.3, region: 'New York',
+      layers: { hat: 'xoxoxoxoxoxoxoxo', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Swung sixteenth hats and claps in the Paradise Garage / New Jersey tradition.' },
+    { style: 'Tech House', bpm: 126, region: 'UK / Ibiza',
+      layers: { hat: 'oxoxoxoxoxoxoxox', ohat: OFF, rim: '..x..x....x..x..', clap: BACK, kick: FOUR },
+      note: 'Simplified. Tight and percussive: syncopated rim and perc loops between the hats.' },
+    { style: 'French / Disco', bpm: 124, region: 'Paris',
+      layers: { tamb: 'oxoxoxoxoxoxoxox', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Simplified. Filtered disco loops; tambourine sixteenths and open hats carry the groove.' },
+    { style: 'Progressive', bpm: 128, region: 'UK',
+      layers: { ride: 'x.x.x.x.x.x.x.x.', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Simplified. Long builds over a steady kit; the ride adds lift.' }
+  ]},
+  { id: 'techno', name: 'Techno', family: 'Electronic', region: 'Detroit / Berlin / global', tags: 'detroit berlin minimal acid hard schranz dub', styles: [
+    { style: 'Detroit', ref: 'techno', region: 'Detroit' },
+    { style: 'Berlin', bpm: 132, region: 'Berlin',
+      layers: { ride: 'x.x.x.x.x.x.x.x.', ohat: OFF, hat: 'oooxoooxoooxooox', kick: FOUR },
+      note: 'Simplified. Darker warehouse techno: rumbling kick, off-beat hats, ride wash, few or no claps.' },
+    { style: 'Minimal', ref: 'minimal' },
+    { style: 'Acid', bpm: 140, region: 'UK / Germany',
+      layers: { hat: 'xxxxxxxxxxxxxxxx', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Simplified. 909 drums under a squelching TB-303 line.' },
+    { style: 'Hard / Schranz', bpm: 150, region: 'Germany',
+      layers: { hat: 'xoxoxoxoxoxoxoxo', ohat: OFF, tomH: '...x..x...x..x..', clap: BACK, kick: FOUR },
+      note: 'Simplified. Fast, loop-driven and percussive.' },
+    { style: 'Dub Techno', bpm: 120, swing: 0.1, region: 'Berlin',
+      layers: { hat: 'oooooooooooooooo', ohat: OFF, rim: '......x.......x.', kick: FOUR },
+      note: 'Simplified. Soft hats and sparse rims; echoing chords do the rest.' }
+  ]},
+  { id: 'dnb', name: 'Drum & Bass', family: 'Electronic', region: 'UK', tags: 'jungle liquid neurofunk jump up halftime', styles: [
+    { style: 'Two-step', ref: 'dnb' },
+    { style: 'Jungle', bpm: 165,
+      layers: { ride: 'x.x.x.x.x.x.x.x.', snare: '....x..o.x..x.xo', kick: 'x.x.......xx....' },
+      note: 'Simplified. Chopped and rearranged Amen-style breaks.' },
+    { style: 'Liquid', bpm: 174,
+      layers: { shaker: 'oxoxoxoxoxoxoxox', hat: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x.........x.....' },
+      note: 'Simplified. Smooth and musical: the two-step with softer, busier percussion.' },
+    { style: 'Neurofunk', bpm: 174,
+      layers: { hat: 'x...x...x..xx...', snare: BACK, kick: 'x.........x..x..' },
+      note: 'Simplified. Tight, technical drums with syncopated kicks.' },
+    { style: 'Jump-up', bpm: 175,
+      layers: { hat: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x.x.......x.....' },
+      note: 'Simplified. Bouncy, punchy and bass-led.' },
+    { style: 'Halftime', ref: 'halftime-dnb' }
+  ]},
+  { id: 'uk-garage', name: 'UK Garage', family: 'Electronic', region: 'London', tags: '2 step two step speed garage 4x4', styles: [
+    { style: '2-Step', ref: 'two-step' },
+    { style: '4x4 Garage', bpm: 130, swing: 0.3,
+      layers: { hat: 'xoxoxoxoxoxoxoxo', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Four-to-the-floor UK garage with heavily swung hats.' },
+    { style: 'Speed Garage', bpm: 135, swing: 0.25,
+      layers: { shaker: 'xxxxxxxxxxxxxxxx', ohat: OFF, snare: BACK, kick: FOUR },
+      note: 'Simplified. Four-to-the-floor with heavy bass and snappy snares.' }
+  ]},
+  { id: 'reggae', name: 'Reggae', family: 'Caribbean', region: 'Jamaica', tags: 'one drop rockers steppers', styles: [
+    { style: 'One Drop', ref: 'one-drop' },
+    { style: 'Rockers', ref: 'rockers' },
+    { style: 'Steppers', ref: 'steppers' }
+  ]},
+  { id: 'dembow', name: 'Dembow / Reggaeton', family: 'Caribbean', region: 'Jamaica → Puerto Rico / DR', tags: 'reggaeton moombahton dominican', styles: [
+    { style: 'Reggaeton', ref: 'dembow', region: 'Puerto Rico' },
+    { style: 'Dominican Dembow', bpm: 125, region: 'Dominican Republic',
+      layers: { hat: 'xxxxxxxxxxxxxxxx', snare: '...x..x....x..x.', clap: BACK, kick: FOUR },
+      note: 'Simplified. Faster and busier than reggaeton.' },
+    { style: 'Moombahton', ref: 'moombahton' }
+  ]},
+  { id: 'clave', name: 'Clave', family: 'Latin America', region: 'Cuba', tags: 'son rumba 3-2 2-3', styles: [
+    { style: 'Son 3-2', ref: 'son-clave' },
+    { style: 'Son 2-3', bpm: 100, layers: { clave: '..x.x...x..x..x.', shaker: 'xoxoxoxoxoxoxoxo' },
+      note: 'Son clave started from its two-side: the same pattern, half a cycle later.' },
+    { style: 'Rumba 3-2', ref: 'rumba-clave' },
+    { style: 'Rumba 2-3', bpm: 110, layers: { clave: '..x.x...x..x...x', congaH: '....x.......x...', congaL: '......xx......xx' },
+      note: 'Rumba clave from its two-side.' }
+  ]},
+  { id: 'samba', name: 'Samba', family: 'Latin America', region: 'Brazil', tags: 'samba reggae batucada', styles: [
+    { style: 'Rio (kit)', ref: 'samba' },
+    { style: 'Samba-reggae', ref: 'samba-reggae' }
+  ]},
+  { id: 'blast', name: 'Blast Beats', family: 'Metal & Punk', region: 'Global (extreme metal)', tags: 'blast hammer bomb', styles: [
+    { style: 'Traditional', ref: 'blast' },
+    { style: 'Hammer', ref: 'hammer-blast' },
+    { style: 'Bomb', ref: 'bomb-blast' }
+  ]},
+  { id: 'gallop', name: 'Gallops', family: 'Metal & Punk', region: 'UK (NWOBHM) / global', tags: 'gallop reverse', styles: [
+    { style: 'Forward', ref: 'gallop' },
+    { style: 'Reverse', ref: 'reverse-gallop' }
+  ]},
+  { id: 'breakdown', name: 'Breakdowns', family: 'Metal & Punk', region: 'USA (hardcore, metalcore)', tags: 'halftime chug mosh beatdown', styles: [
+    { style: 'Half-time', ref: 'breakdown' },
+    { style: 'Mosh', ref: 'mosh-breakdown' }
+  ]}
+];

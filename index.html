@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Drum Atlas · BB DSP</title>
 <meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams and step sequences you can play, vary and edit. By BB DSP.">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <div class="chassis">
@@ -46,6 +46,10 @@
           <div class="field wide"><span class="lbl">PATTERN</span><div class="lcd" id="pName">--</div></div>
           <div class="field"><span class="lbl">FAMILY</span><div class="lcd sm" id="pFamily">--</div></div>
           <div class="field"><span class="lbl">REGION</span><div class="lcd sm" id="pRegion">--</div></div>
+        </div>
+        <div class="block styles" id="styleBlock" hidden>
+          <span class="lbl">STYLE</span>
+          <div class="stylesegs" id="styleSegs" role="group" aria-label="Style"></div>
         </div>
         <p class="note" id="pNote"></p>
 
@@ -128,7 +132,7 @@
   </footer>
 </div>
 
-<script src="patterns.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="patterns.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
