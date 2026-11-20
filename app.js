@@ -5,12 +5,12 @@ const P = { lilac: '#DFC6E3', orange: '#F26419', gold: '#F6AE28', cherry: '#A424
   teal: '#7EB09B', sky: '#7AADDB', lime: '#B2FFA9', red: '#DB2C39', dusk: '#5F5069', navy: '#29325D', alabaster: '#E1DEE3' };
 const HOUSE = { frame: '#B3B3B3', ink: '#4D4D4D', card: '#FBFAF6' };
 
-const FAM_COL = {
-  'Rock & Pop': P.red, 'Metal & Punk': P.cherry, 'Funk, Soul & Disco': P.gold, 'Hip-Hop & Breaks': P.dusk,
-  'Electronic': P.sky, 'Latin America': P.green, 'Caribbean': P.lime, 'West & Central Africa': P.teal,
-  'Southern Africa': P.lilac, 'Middle East & North Africa': P.navy, 'South Asia': P.gold, 'Europe': P.sky,
-  'Jazz & Blues': P.navy, 'Euclidean timelines': '#4D4D4D'
+const FAM_COL = {   // genre colours (card outlines, chips)
+  'Pop': P.lilac, 'Rock': P.red, 'Metal & Punk': P.cherry, 'Funk, Soul & Disco': P.gold, 'Hip-Hop & R&B': P.dusk,
+  'Electronic & Dance': P.sky, 'Latin & Brazilian': P.green, 'Reggae & Caribbean': P.lime, 'African Pop & Dance': P.orange,
+  'Jazz & Blues': P.navy, 'Traditional & Folk': P.teal, 'Euclidean timelines': '#4D4D4D'
 };
+const AREA_COL = { NA: P.navy, CAR: P.lime, LAT: P.green, UK: P.red, EUR: P.sky, MENA: P.dusk, WAF: P.teal, SAF: P.lilac, SAS: P.gold, EAS: P.cherry };
 const MAJOR = P.sky; // the one UI accent (window, knobs, LCD text, play)
 
 const INST = {
@@ -20,7 +20,8 @@ const INST = {
   triangle: ['Triangle', P.sky], cowbell: ['Cowbell', P.dusk], clave: ['Clave', P.orange], bell: ['Bell', P.gold],
   congaH: ['Conga high', P.lilac], congaL: ['Conga low', P.cherry], tomH: ['Tom high', P.lilac], tomL: ['Tom low / surdo', P.teal],
   dum: ['Dum', P.navy], tek: ['Tek', P.red], bayan: ['Bayan', P.navy], dayan: ['Dayan', P.orange],
-  palmas: ['Palmas', P.cherry], cajon: ['Cajón', P.dusk], log: ['Log drum', P.dusk]
+  palmas: ['Palmas', P.cherry], cajon: ['Cajón', P.dusk], log: ['Log drum', P.dusk],
+  jangguT: ['Janggu treble (deok)', P.red], jangguB: ['Janggu bass (kung)', P.navy]
 };
 const lab = k => (INST[k] ? INST[k][0] : k);
 const col = k => (INST[k] ? INST[k][1] : HOUSE.ink);
@@ -114,6 +115,8 @@ const SYN = {
   bayan: (t, v) => tone(t, { f0: 85, f1: 105, dec: .55, peak: .9 * v }),
   dayan: (t, v) => { tone(t, { f0: 520, dec: .3, peak: .45 * v }); tone(t, { f0: 1040, dec: .15, peak: .15 * v }); hiss(t, { f: 3000, dec: .015, peak: .15 * v }); },
   cajon: (t, v) => { tone(t, { f0: 110, f1: 65, dec: .18, peak: .8 * v }); hiss(t, { ft: 'lowpass', f: 1200, dec: .06, peak: .2 * v }); },
+  jangguB: (t, v) => { tone(t, { f0: 130, f1: 95, dec: .35, peak: .85 * v }); hiss(t, { ft: 'lowpass', f: 900, dec: .03, peak: .2 * v }); },
+  jangguT: (t, v) => { hiss(t, { f: 2600, q: 1.5, dec: .05, peak: .6 * v }); tone(t, { type: 'triangle', f0: 620, f1: 560, dec: .06, peak: .35 * v }); },
   log: (t, v) => { tone(t, { f0: 75, f1: 55, dec: .55, peak: v, a: .004 }); tone(t, { type: 'triangle', f0: 150, f1: 110, dec: .1, peak: .3 * v }); }
 };
 
@@ -144,7 +147,7 @@ const ALIASES = {}, pulled = new Set(), groupAt = {}, loose = [];
     if (src && src.id !== g.id) ALIASES[src.id] = id;
     const { ref, ...own } = st;
     return normalise({ family: g.family, region: g.region, ...(src || {}), ...own, layers: own.layers || src.layers,
-      id, name: g.name, style: st.style, group: g.id, tags: [g.tags, src && src.tags].filter(Boolean).join(' ') });
+      id, srcId: src ? src.id : null, name: g.name, style: st.style, group: g.id, tags: [g.tags, src && src.tags].filter(Boolean).join(' ') });
   }).filter(Boolean);
   if (!styles.length) return;
   styles.forEach((s, i) => s.styleIdx = i);
@@ -158,6 +161,20 @@ ALL.push(...loose);
 const byId = {};
 ALL.forEach(p => { byId[p.id] = p; (p.styles || []).forEach(s => byId[s.id] = s); });
 const entryOf = p => byId[p.group] || p;   // the library entry a pattern or style belongs to
+
+/* broad genres (stored in .family) and map areas (.areas) */
+const AO = window.AREA_OF || {};
+const asArr = v => v == null ? null : [].concat(v);
+const genreOf = p => (window.GENRE_OF || {})[p.srcId || p.id] || (window.GENRE_OF || {})[p.id] || (window.FAMILY_TO_GENRE || {})[p.family] || p.family;
+const areasOf = p => asArr(AO[p.id]) || (p.srcId && asArr(AO[p.srcId])) || (p.group && asArr(AO['@' + p.group])) || ['GLOBAL'];
+ALL.forEach(p => {
+  if (p.styles) {
+    const gg = genreOf({ id: p.id, family: p.family });
+    p.styles.forEach(s => { s.family = gg; s.areas = areasOf(s); });
+    p.family = gg; p.areas = [...new Set(p.styles.flatMap(s => s.areas))];
+  } else { p.family = genreOf(p); p.areas = areasOf(p); }
+});
+const AREA_NAME = Object.fromEntries((window.AREAS || []).map(a => [a.id, a.name]).concat([['GLOBAL', 'Global']]));
 const clone = p => ({ ...p, layers: p.layers.map(l => ({ ...l })) });
 
 function euclidName(s) {
@@ -348,7 +365,7 @@ function knob(el, flipEl, { min, max, value, def = value, digits = 2, label, onC
 /* ───────────────────────── state & UI ───────────────────────── */
 const $ = id => document.getElementById(id);
 let cur, base, src, level = 0, muted = new Set(), view = 'circle', pure = false;
-let family = 'All', query = '', stepsF = 'all', sortBy = 'family', visible = ALL, hitsByStep = [], colCells = [];
+let area = 'ALL', family = 'All', query = '', stepsF = 'all', sortBy = 'family', visible = ALL, hitsByStep = [], colCells = [];
 try { pure = localStorage.getItem('da-pure') === '1'; view = localStorage.getItem('da-view') || 'circle'; } catch (e) {}
 
 document.documentElement.style.setProperty('--acc', MAJOR);
@@ -541,7 +558,7 @@ document.addEventListener('keydown', e => {
 /* ───────────────────────── MIDI export (Standard MIDI File, type 0) ───────────────────────── */
 const GM = { kick: 36, snare: 38, rim: 37, clap: 39, hat: 42, ohat: 46, ride: 51, crash: 49, tamb: 54, shaker: 69,
   maracas: 70, guiro: 73, triangle: 81, cowbell: 56, clave: 75, bell: 67, congaH: 63, congaL: 64, tomH: 50, tomL: 41,
-  dum: 64, tek: 37, bayan: 41, dayan: 60, palmas: 39, cajon: 35, log: 45 };
+  dum: 64, tek: 37, bayan: 41, dayan: 60, palmas: 39, cajon: 35, log: 45, jangguB: 47, jangguT: 37 };
 const MVEL = { X: 120, x: 96, o: 45 };
 let bars = 4;
 function vlq(n) { const b = [n & 127]; while ((n >>= 7)) b.unshift((n & 127) | 128); return b; }
@@ -596,44 +613,90 @@ $('midi').addEventListener('dragstart', e => {
 /* ───────────────────────── library ───────────────────────── */
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
 const playIcon = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>';
+const pickStyle = p => (p.styles && area !== 'ALL' && p.styles.find(s => s.areas.includes(area))) || (p.styles ? p.styles[0] : p);
 function card(p) {
-  const c = FAM_COL[p.family] || P.gold;
+  const c = FAM_COL[p.family] || P.gold, show = pickStyle(p);
   const ns = (p.styles || []).length;
   return `<div class="card${base && p.id === entryOf(base).id ? ' sel' : ''}" data-id="${p.id}" style="--c:${c}">
-    <button class="open" data-id="${p.id}" aria-label="Open ${p.name}">
+    <button class="open" data-id="${show.id}" aria-label="Open ${p.name}">
       <span class="ch">${euclidIcon(isLight(c) ? HOUSE.ink : c)}<b>${p.name.toUpperCase()}</b>${ns > 1 ? `<i class="nst">${ns} STYLES</i>` : ''}</span>
-      <span class="fig">${wheel(p, { pure })}</span>
+      <span class="fig">${wheel(show, { pure })}</span>
     </button>
-    <div class="cf"><span>${p.region.toUpperCase()} · ${p.bpm} BPM${p.steps !== 16 ? ' · ' + p.steps : ''}</span>
-      <button class="key cplay" data-id="${p.id}" aria-label="Play ${p.name}">${playIcon}</button></div>
+    <div class="cf"><span>${(show.style && area !== 'ALL' ? show.style + ' · ' : '') + show.region.toUpperCase()} · ${show.bpm} BPM${show.steps !== 16 ? ' · ' + show.steps : ''}</span>
+      <button class="key cplay" data-id="${show.id}" aria-label="Play ${p.name}">${playIcon}</button></div>
   </div>`;
 }
 function chips() {
-  const counts = ALL.reduce((m, p) => (m[p.family] = (m[p.family] || 0) + 1, m), {});
-  $('chips').innerHTML = ['All', ...window.FAMILIES.filter(f => counts[f])].map(f =>
-    `<button class="seg" style="--c:${f === 'All' ? MAJOR : FAM_COL[f]}" data-f="${f}" aria-pressed="${f === family}">${f.toUpperCase()}<small>${f === 'All' ? ALL.length : counts[f]}</small></button>`).join('');
+  const inArea = ALL.filter(p => area === 'ALL' || p.areas.includes(area));
+  const counts = inArea.reduce((m, p) => (m[p.family] = (m[p.family] || 0) + 1, m), {});
+  $('chips').innerHTML = ['All', ...window.GENRES.filter(f => counts[f])].map(f =>
+    `<button class="seg" style="--c:${f === 'All' ? MAJOR : FAM_COL[f]}" data-f="${f}" aria-pressed="${f === family}">${f.toUpperCase()}<small>${f === 'All' ? inArea.length : counts[f]}</small></button>`).join('');
 }
 function renderLib() {
   const q = norm(query);
-  visible = ALL.filter(p => (family === 'All' || p.family === family) && (stepsF === 'all' || String(p.steps) === stepsF) &&
+  visible = ALL.filter(p => (area === 'ALL' || p.areas.includes(area)) && (family === 'All' || p.family === family) && (stepsF === 'all' || String(p.steps) === stepsF) &&
     (!q || norm([p.name, p.region, p.family, p.note, p.tags || '', p.steps + 'steps', ...p.layers.map(l => lab(l.inst)),
       ...(p.styles || []).map(s => [s.style, s.region, s.note, s.tags || ''].join(' '))].join(' ')).includes(q)));
   const sorters = {
-    family: (a, b) => window.FAMILIES.indexOf(a.family) - window.FAMILIES.indexOf(b.family),
+    family: (a, b) => window.GENRES.indexOf(a.family) - window.GENRES.indexOf(b.family),
     az: (a, b) => a.name.localeCompare(b.name), slow: (a, b) => a.bpm - b.bpm, fast: (a, b) => b.bpm - a.bpm,
     region: (a, b) => a.region.localeCompare(b.region)
   };
   visible = visible.slice().sort(sorters[sortBy]);
   $('count').textContent = `${visible.length} OF ${ALL.length} PATTERNS`;
+  updateMap();
   $('empty').hidden = visible.length > 0;
-  $('clearF').hidden = family === 'All' && !query && stepsF === 'all' && sortBy === 'family';
+  $('clearF').hidden = area === 'ALL' && family === 'All' && !query && stepsF === 'all' && sortBy === 'family';
   if (sortBy === 'family') {
-    const groups = window.FAMILIES.map(f => [f, visible.filter(p => p.family === f)]).filter(([, l]) => l.length);
+    const groups = window.GENRES.map(f => [f, visible.filter(p => p.family === f)]).filter(([, l]) => l.length);
     $('lib').innerHTML = groups.map(([f, l]) => `<section class="fam" style="--c:${FAM_COL[f]}">
-      <h3><i></i>${f.toUpperCase()} <small>${l.length}</small>${family === 'All' ? `<button class="more" data-f="${f}">ONLY THIS FAMILY</button>` : ''}</h3>
+      <h3><i></i>${f.toUpperCase()} <small>${l.length}</small>${family === 'All' ? `<button class="more" data-f="${f}">ONLY THIS GENRE</button>` : ''}</h3>
       <div class="grid">${l.map(card).join('')}</div></section>`).join('');
   } else $('lib').innerHTML = `<div class="grid">${visible.map(card).join('')}</div>`;
 }
+/* ── map ── */
+const MAPD = window.MAP_DOTS || {}, MG = window.MAP_GRID || { w: 120, h: 44 }, MS = 10;
+const parseDots = s => s ? s.split(';').map(q => q.split(',').map(Number)) : [];
+const PIN_NUDGE = { UK: [-34, -26], CAR: [24, 14], EUR: [16, 6], EAS: [0, 4], MENA: [0, -6] };
+const areaCount = a => ALL.filter(p => p.areas.includes(a)).length;
+function buildMap() {
+  let svg = `<g class="other">${parseDots(MAPD.OTHER).map(([x, y]) => `<circle cx="${x * MS + 5}" cy="${y * MS + 5}" r="3.2"/>`).join('')}</g>`;
+  (window.AREAS || []).forEach(A => {
+    const pts = parseDots(MAPD[A.id]); if (!pts.length) return;
+    const n = areaCount(A.id), nd = PIN_NUDGE[A.id] || [0, 0];
+    const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length * MS + 5 + nd[0], cy = pts.reduce((s, p) => s + p[1], 0) / pts.length * MS + 5 + nd[1];
+    const w = 20 + String(n).length * 14;
+    svg += `<g class="ar" data-a="${A.id}" style="--c:${AREA_COL[A.id]}" tabindex="0" role="button" aria-pressed="false" aria-label="${A.name}: ${n} patterns">
+      ${pts.map(([x, y]) => `<circle cx="${x * MS + 5}" cy="${y * MS + 5}" r="3.7"/>`).join('')}
+      <g class="pin"><rect x="${cx - w / 2}" y="${cy - 15}" width="${w}" height="30" rx="3"/><text x="${cx}" y="${cy + 1}">${n}</text></g></g>`;
+  });
+  $('map').innerHTML = `<svg viewBox="0 0 ${MG.w * MS} ${MG.h * MS}" aria-hidden="false">${svg}</svg>`;
+  const chipsFor = ['ALL', ...(window.AREAS || []).map(a => a.id), 'GLOBAL'];
+  $('areaChips').innerHTML = chipsFor.map(a => `<button class="seg" data-a="${a}" style="--c:${a === 'ALL' ? MAJOR : AREA_COL[a] || HOUSE.frame}" aria-pressed="${a === area}">${a === 'ALL' ? 'EVERYWHERE' : AREA_NAME[a].toUpperCase()}<small>${a === 'ALL' ? ALL.length : areaCount(a)}</small></button>`).join('');
+}
+function hint(a) {
+  $('areaName').textContent = a && a !== 'ALL'
+    ? `${AREA_NAME[a].toUpperCase()} · ${areaCount(a)} PATTERNS${a === area ? ' · TAP AGAIN FOR EVERYWHERE' : ''}`
+    : `TAP AN AREA OF THE MAP · SHOWING EVERYWHERE`;
+}
+function updateMap() {
+  $('map').classList.toggle('picked', area !== 'ALL');
+  $('map').querySelectorAll('.ar').forEach(g => { const on = g.dataset.a === area; g.classList.toggle('on', on); g.setAttribute('aria-pressed', on); });
+  $('areaChips').querySelectorAll('.seg').forEach(b => b.setAttribute('aria-pressed', b.dataset.a === area));
+  hint(area);
+}
+function setArea(a) {
+  area = a === area && a !== 'ALL' ? 'ALL' : a;
+  if (family !== 'All' && !ALL.some(p => p.family === family && (area === 'ALL' || p.areas.includes(area)))) family = 'All';
+  chips(); renderLib();
+}
+$('map').addEventListener('click', e => { const g = e.target.closest('.ar'); if (g) setArea(g.dataset.a); });
+$('map').addEventListener('keydown', e => { const g = e.target.closest('.ar'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setArea(g.dataset.a); } });
+$('map').addEventListener('pointerover', e => { const g = e.target.closest('.ar'); hint(g ? g.dataset.a : area); });
+$('map').addEventListener('pointerleave', () => hint(area));
+$('map').addEventListener('focusin', e => { const g = e.target.closest('.ar'); if (g) hint(g.dataset.a); });
+$('areaChips').addEventListener('click', e => { const b = e.target.closest('.seg'); if (b) setArea(b.dataset.a); });
+
 $('chips').addEventListener('click', e => { const b = e.target.closest('.seg'); if (!b) return; family = b.dataset.f; chips(); renderLib(); });
 $('search').addEventListener('input', e => { query = e.target.value; renderLib(); });
 $('sort').addEventListener('change', e => { sortBy = e.target.value; renderLib(); });
@@ -642,7 +705,7 @@ $('stepsF').addEventListener('click', e => {
   $('stepsF').querySelectorAll('.seg').forEach(x => x.setAttribute('aria-pressed', x === b)); renderLib();
 });
 $('clearF').onclick = () => {
-  family = 'All'; query = ''; stepsF = 'all'; sortBy = 'family';
+  area = 'ALL'; family = 'All'; query = ''; stepsF = 'all'; sortBy = 'family';
   $('search').value = ''; $('sort').value = 'family';
   $('stepsF').querySelectorAll('.seg').forEach(x => x.setAttribute('aria-pressed', x.dataset.s === 'all'));
   chips(); renderLib();
@@ -658,6 +721,7 @@ window.addEventListener('hashchange', () => { const id = ALIASES[location.hash.s
 
 $('pure').setAttribute('aria-pressed', pure);
 setView(view);
+buildMap();
 chips();
 renderLib();
 load(location.hash.slice(1) || 'son-clave');

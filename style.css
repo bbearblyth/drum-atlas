@@ -199,3 +199,22 @@ code{font:inherit;text-transform:none;background:var(--chassis);color:var(--text
 .stylesegs .seg b{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-right:6px;background:var(--lcd);color:var(--accLcd);font-size:12px;border-radius:2px}
 .stylesegs .seg[aria-pressed=true] b{background:#000}
 .nst{font-style:normal;margin-left:auto;flex:none;font-size:10px;letter-spacing:.06em;background:var(--lcd);color:var(--accLcd);padding:2px 6px;border-radius:2px}
+
+/* map */
+.map{position:relative;aspect-ratio:1200/440;margin:4px 0 12px}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.other circle{fill:var(--chassis)}
+.ar{cursor:pointer;outline:none}
+.ar circle{fill:var(--frame);stroke:transparent;stroke-width:7;pointer-events:all;transition:fill .15s}
+.ar:hover circle,.ar:focus-visible circle,.ar.on circle{fill:var(--c)}
+.map.picked .ar:not(.on):not(:hover) circle{fill:#D8D3C6}
+.pin{pointer-events:none}
+.pin rect{fill:var(--lcd);stroke:var(--bezel);stroke-width:2.5}
+.pin text{fill:var(--accLcd);font:700 21px "BDR",ui-monospace,monospace;text-anchor:middle;dominant-baseline:central}
+.ar.on .pin rect{fill:var(--c);stroke:var(--text)}
+.ar.on .pin text{fill:#000}
+.ar:focus-visible .pin rect{stroke:var(--text);stroke-width:4}
+.maphint{margin:0 0 12px}
+.areachips{margin-bottom:18px}
+@media(max-width:700px){.pin{display:none}}
+@media(prefers-reduced-motion:reduce){.ar circle{transition:none}}

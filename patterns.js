@@ -568,3 +568,145 @@ window.STYLE_GROUPS.push(
       note: 'Simplified. Sparse and repetitive: the drums leave room for the bass loop.' }
   ]}
 );
+
+// ───────── Korean traditional ─────────
+window.PATTERNS.push(
+  { id: 'gutgeori', name: 'Gutgeori Jangdan', family: 'Traditional & Folk', region: 'Korea', bpm: 80, steps: 12, perBeat: 3, tags: 'janggu jangdan korean pungmul samul nori',
+    layers: { jangguT: 'X.oX.x..oX.x', jangguB: 'X...x.x...x.' },
+    note: 'Simplified. A 12/8 cycle on the janggu hourglass drum: deong (both heads), gi, deok (treble), kung (bass). Used in folk song, pungmul and samul nori.' }
+);
+
+window.STYLE_GROUPS.push(
+  { id: 'pop', name: 'Pop', family: 'Pop', region: 'Global', tags: 'pop modern chart synth dance ballad trap tropical reggaeton afro garage hyperpop bedroom funk motown', styles: [
+    { style: '80s Straight', ref: 'pop-groove' },
+    { style: 'Motown', ref: 'motown' },
+    { style: 'Stomp-Clap', ref: 'stomp-clap' },
+    { style: '12/8 Ballad', ref: 'ballad-128' },
+    { style: 'Piano Ballad', bpm: 68, region: 'Global',
+      layers: { hat: 'x.x.x.x.x.x.x.x.', clap: BACK, kick: 'x......x..x.....' },
+      note: 'Modern ballad drums: soft claps or snaps on 2 and 4 and a gentle syncopated kick.' },
+    { style: 'Synth-pop', bpm: 120, region: 'UK / Europe',
+      layers: { hat: 'XoxoXoxoXoxoXoxo', snare: BACK, kick: 'x.......x.x.....' },
+      note: 'Drum-machine sixteenths and a big gated snare, in the LinnDrum tradition.' },
+    { style: 'Dance-pop', bpm: 124, region: 'Global',
+      layers: { hat: 'oxoxoxoxoxoxoxox', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Four-to-the-floor club drums under a pop song.' },
+    { style: 'Nu-disco', bpm: 118, region: 'Global',
+      layers: { tamb: 'oxoxoxoxoxoxoxox', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'Simplified. Disco drums with modern production; tambourine sixteenths drive it.' },
+    { style: 'Funk-pop', bpm: 115, swing: 0.1, region: 'USA',
+      layers: { hat: 'XxoxXxoxXxoxXxox', snare: BACK, kick: 'x..x..x...x.....' },
+      note: 'Simplified. Retro funk drums with a syncopated kick under a big pop chorus.' },
+    { style: 'Trap-pop', bpm: 140, region: 'USA',
+      layers: { hat: 'x.x.x.x.x.xxxxxx', clap: '........x.......', kick: 'x......x..x...x.' },
+      note: 'Simplified. Half-time trap drums (rolling hats, clap on 3) under pop melodies.' },
+    { style: 'Tropical House', bpm: 105, region: 'Norway / Germany',
+      layers: { shaker: 'oxoxoxoxoxoxoxox', clap: BACK, kick: FOUR },
+      note: 'Simplified. Relaxed four-to-the-floor at a slow tempo; marimba and pan-flute leads.' },
+    { style: 'Reggaeton-pop', bpm: 92, region: 'Puerto Rico / Colombia',
+      layers: { hat: 'x.x.x.x.x.x.x.x.', snare: '...x..x....x..x.', kick: FOUR },
+      note: 'The dembow under global chart pop.' },
+    { style: 'Afro-pop', bpm: 105, region: 'Nigeria / Ghana',
+      layers: { shaker: 'xoxoxoxoxoxoxoxo', rim: '...x..x....x..x.', kick: 'x.....x...x.....' },
+      note: 'Simplified. Afrobeats rhythm under pop and R&B songs.' },
+    { style: 'Garage-pop', bpm: 134, swing: 0.3, region: 'UK',
+      layers: { shaker: 'xxxxxxxxxxxxxxxx', snare: BACK, kick: 'x.........x.....' },
+      note: 'Simplified. 2020s pop borrowing UK garage two-step and swing.' },
+    { style: 'Hyperpop', bpm: 160, region: 'Global (online)',
+      layers: { hat: 'xxxxxxxxxxxxxxxx', snare: BACK, kick: 'x..x..x.x..x..x.' },
+      note: 'Simplified. Fast, maximal and distorted; drum patterns borrow from trap, club and happy hardcore.' },
+    { style: 'Bedroom Pop', bpm: 85, swing: 0.3, region: 'Global (online)',
+      layers: { hat: 'x.x.x.x.x.x.x.x.', snare: BACK, kick: 'x......x..x.....' },
+      note: 'Simplified. Lo-fi, swung and soft: home-recorded pop.' }
+  ]},
+  { id: 'kpop', name: 'K-pop', family: 'Pop', region: 'South Korea', tags: 'kpop korean idol', styles: [
+    { style: 'EDM Chorus', bpm: 125,
+      layers: { hat: 'oxoxoxoxoxoxoxox', ohat: OFF, clap: BACK, kick: FOUR },
+      note: 'K-pop has no single signature rhythm: songs often switch drum styles between sections. This is the common four-to-the-floor chorus.' },
+    { style: 'Trap Verse', bpm: 140,
+      layers: { hat: 'x.x.x.x.xxx.x.xx', clap: '........x.......', kick: 'x......x..x...x.' },
+      note: 'Simplified. Half-time trap drums, often used in verses and "girl crush" concepts.' },
+    { style: 'Moombahton / Tropical', bpm: 102,
+      layers: { shaker: 'oxoxoxoxoxoxoxox', snare: '...x..x....x..x.', kick: FOUR },
+      note: 'Simplified. Dembow-based tropical pop, popular in mid-2010s K-pop.' },
+    { style: 'Jersey Club', bpm: 140,
+      layers: { hat: 'x..xx..xx..xxxxx', clap: BACK, kick: 'x...x...x..x.x..' },
+      note: 'Simplified. The bouncing five-kick club pattern taken up by 2020s girl groups.' },
+    { style: '2-Step / Garage', bpm: 130, swing: 0.3,
+      layers: { shaker: 'xoxoxoxoxoxoxoxo', snare: BACK, kick: 'x.........x.....' },
+      note: 'Simplified. Light, swung UK-garage drums, common in recent "easy listening" K-pop.' },
+    { style: 'Retro Funk', bpm: 112, swing: 0.1,
+      layers: { hat: 'XxoxXxoxXxoxXxox', snare: BACK, kick: 'x..x..x...x.....' },
+      note: 'Simplified. Disco and funk revival drums.' },
+    { style: 'Noise / Switch-up', bpm: 140,
+      layers: { crash: 'x...............', snare: '....x..x..x.x.xx', kick: 'x..x..x...xx....' },
+      note: 'Simplified. Abrasive, broken drum breaks used for dramatic beat switches mid-song.' }
+  ]}
+);
+
+/*
+  GENRES and MAP AREAS
+  ---------------------
+  `GENRE_OF` regroups the old families into broad genres (the filter chips).
+  `AREA_OF` places each pattern (or style, by "group--style" id) on the map.
+  A pattern can sit in several areas. Anything without an area counts as Global.
+*/
+window.GENRES = ['Pop', 'Rock', 'Metal & Punk', 'Funk, Soul & Disco', 'Hip-Hop & R&B', 'Electronic & Dance',
+  'Latin & Brazilian', 'Reggae & Caribbean', 'African Pop & Dance', 'Jazz & Blues', 'Traditional & Folk', 'Euclidean timelines'];
+window.FAMILY_TO_GENRE = {
+  'Rock & Pop': 'Rock', 'Metal & Punk': 'Metal & Punk', 'Funk, Soul & Disco': 'Funk, Soul & Disco',
+  'Hip-Hop & Breaks': 'Hip-Hop & R&B', 'Electronic': 'Electronic & Dance', 'Latin America': 'Latin & Brazilian',
+  'Caribbean': 'Reggae & Caribbean', 'West & Central Africa': 'Traditional & Folk', 'Southern Africa': 'African Pop & Dance',
+  'Middle East & North Africa': 'Traditional & Folk', 'South Asia': 'Traditional & Folk', 'Europe': 'Traditional & Folk',
+  'Jazz & Blues': 'Jazz & Blues', 'Euclidean timelines': 'Euclidean timelines', 'Pop': 'Pop', 'Traditional & Folk': 'Traditional & Folk'
+};
+window.GENRE_OF = {
+  'new-jack': 'Hip-Hop & R&B', afrobeat: 'African Pop & Dance', afrobeats: 'African Pop & Dance', soukous: 'African Pop & Dance',
+  habanera: 'Latin & Brazilian', dembow: 'Latin & Brazilian', 'cha-cha': 'Latin & Brazilian'
+};
+window.AREAS = [
+  { id: 'NA', name: 'North America' }, { id: 'CAR', name: 'Caribbean' }, { id: 'LAT', name: 'Latin America' },
+  { id: 'UK', name: 'UK & Ireland' }, { id: 'EUR', name: 'Europe' }, { id: 'MENA', name: 'Middle East & North Africa' },
+  { id: 'WAF', name: 'West & Central Africa' }, { id: 'SAF', name: 'Southern Africa' }, { id: 'SAS', name: 'South Asia' },
+  { id: 'EAS', name: 'East Asia' }
+];
+window.AREA_OF = {
+  // North America
+  motown: 'NA', 'pop-groove': 'NA', 'train-beat': 'NA', 'bo-diddley': 'NA', disco: 'NA', 'funky-drummer': 'NA', 'go-go': 'NA',
+  'new-jack': 'NA', amen: 'NA', 'boom-bap': 'NA', trap: 'NA', electro: 'NA', 'jersey-club': 'NA', 'swing-ride': 'NA', shuffle: 'NA',
+  'ballad-128': 'NA', boogie: 'NA', 'thrash-skank': 'NA', 'nu-metal': 'NA', 'pop-punk': 'NA', 'linear-funk': 'NA',
+  'purdie-shuffle': 'NA', 'neo-soul': 'NA', 'g-funk': 'NA', footwork: 'NA', 'two-feel': 'NA', breakdown: 'NA', 'mosh-breakdown': 'NA',
+  skank: ['NA', 'UK'], doom: ['UK', 'NA'], 'halftime-rock': ['NA', 'UK'], 'rock-basic': ['NA', 'UK'], 'rock-16': ['NA', 'UK'],
+  'rock--ride': ['NA', 'UK'], 'rock--quarter-note-ballad': ['NA', 'UK'], 'dance-rock': ['UK', 'NA'], 'rock--syncopated-kick': 'NA',
+  'rock--open-hat-grunge': 'NA', 'rock--punk-drive': ['UK', 'NA'], 'tom-gallop': 'NA',
+  'house--chicago': 'NA', 'house--deep': 'NA', 'house--ny-garage': 'NA', 'house--tech-house': 'UK', 'house--french-disco': 'EUR', 'house--progressive': 'UK',
+  'techno--detroit': 'NA', 'techno--berlin': 'EUR', 'techno--minimal': 'EUR', 'techno--acid': ['UK', 'EUR'], 'techno--hard-schranz': 'EUR', 'techno--dub-techno': 'EUR',
+  'dembow--moombahton': 'NA', salsa: ['CAR', 'NA'], blast: ['UK', 'NA'], 'hammer-blast': ['NA', 'EUR'], 'bomb-blast': ['NA', 'EUR'],
+  'pop--funk-pop': 'NA', 'pop--trap-pop': 'NA', 'pop--dance-pop': ['NA', 'EUR'],
+  // UK & Ireland
+  'stomp-clap': 'UK', 'd-beat': 'UK', 'big-beat': 'UK', 'irish-reel': 'UK', 'irish-jig': 'UK', gallop: 'UK', 'reverse-gallop': 'UK',
+  'pop--synth-pop': ['UK', 'EUR'], 'pop--garage-pop': 'UK',
+  // Europe
+  motorik: 'EUR', djent: 'EUR', trance: 'EUR', gabber: 'EUR', waltz: 'EUR', polka: 'EUR', bulerias: 'EUR', freylekhs: 'EUR',
+  tarantella: 'EUR', 'pop--tropical-house': 'EUR', 'pop--nu-disco': ['EUR', 'NA'],
+  // Caribbean
+  habanera: 'CAR', ska: 'CAR', dancehall: 'CAR', 'cha-cha': 'CAR', 'son-clave': 'CAR', 'rumba-clave': 'CAR', 'clave--son-2-3': 'CAR',
+  'clave--rumba-2-3': 'CAR', 'one-drop': 'CAR', rockers: 'CAR', steppers: ['CAR', 'UK'], dembow: 'CAR', 'dembow--dominican-dembow': 'CAR',
+  tresillo: 'CAR', cinquillo: 'CAR', 'pop--reggaeton-pop': ['CAR', 'LAT'],
+  // Latin America
+  bossa: 'LAT', baiao: 'LAT', cumbia: 'LAT', milonga: 'LAT', samba: 'LAT', 'samba-reggae': 'LAT', sesquialtera: 'LAT',
+  'e5-16': 'LAT', 'e7-16': 'LAT',
+  // Africa
+  afrobeat: 'WAF', afrobeats: 'WAF', gahu: 'WAF', shiko: 'WAF', soukous: 'WAF', bembe: ['WAF', 'CAR'], 'fume-fume': 'WAF',
+  'e9-16': 'WAF', 'e5-12': 'WAF', 'e7-12': 'WAF', 'pop--afro-pop': 'WAF',
+  amapiano: 'SAF', gqom: 'SAF', kwaito: 'SAF', 'afro-house': 'SAF',
+  // Middle East & North Africa
+  maqsum: 'MENA', baladi: 'MENA', saidi: 'MENA', ayoub: 'MENA', malfuf: 'MENA', wahda: 'MENA', gnawa: 'MENA',
+  // South Asia
+  teentaal: 'SAS', keherwa: 'SAS', dadra: 'SAS', ektaal: 'SAS', 'adi-tala': 'SAS',
+  // East Asia
+  gutgeori: 'EAS', 'kpop--edm-chorus': 'EAS', 'kpop--trap-verse': 'EAS', 'kpop--moombahton-tropical': 'EAS', 'kpop--jersey-club': 'EAS',
+  'kpop--2-step-garage': 'EAS', 'kpop--retro-funk': 'EAS', 'kpop--noise-switch-up': 'EAS'
+};
+// UK-born genres: every style of these groups
+['dnb', 'uk-garage', 'dubstep'].forEach(g => window.AREA_OF['@' + g] = 'UK');

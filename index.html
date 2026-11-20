@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Drum Atlas · BB DSP</title>
 <meta name="description" content="Drum patterns from many genres and cultures, drawn as circular 16-step rhythm diagrams and step sequences you can play, vary and edit. By BB DSP.">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <div class="chassis">
@@ -44,7 +44,7 @@
       <div class="panel">
         <div class="lcds">
           <div class="field wide"><span class="lbl">PATTERN</span><div class="lcd" id="pName">--</div></div>
-          <div class="field"><span class="lbl">FAMILY</span><div class="lcd sm" id="pFamily">--</div></div>
+          <div class="field"><span class="lbl">GENRE</span><div class="lcd sm" id="pFamily">--</div></div>
           <div class="field"><span class="lbl">REGION</span><div class="lcd sm" id="pRegion">--</div></div>
         </div>
         <div class="block styles" id="styleBlock" hidden>
@@ -106,24 +106,28 @@
     </div>
   </section>
 
-  <section class="win library" aria-label="Pattern library">
+  <section class="win library" aria-label="Explore patterns">
     <header class="bar">
-      <h2>LIBRARY</h2>
+      <h2>EXPLORE</h2>
       <span class="brand" id="count">0 PATTERNS</span>
     </header>
+    <div class="map" id="map" role="group" aria-label="World map: choose an area"></div>
+    <div class="lcd strip maphint" id="areaName" aria-live="polite">TAP AN AREA OF THE MAP</div>
+    <div class="chips areachips" id="areaChips" role="toolbar" aria-label="Filter by area"></div>
     <div class="tools">
-      <input id="search" class="lcd" type="search" placeholder="SEARCH: HALFTIME, CLAVE, KICK, 12…" aria-label="Search patterns" autocomplete="off">
+      <input id="search" class="lcd" type="search" placeholder="SEARCH: HALFTIME, CLAVE, K-POP…" aria-label="Search patterns" autocomplete="off">
       <div class="tool"><span class="lbl">SORT</span><div class="dd"><select id="sort" aria-label="Sort">
-        <option value="family">BY FAMILY</option><option value="az">A – Z</option><option value="slow">SLOWEST FIRST</option><option value="fast">FASTEST FIRST</option><option value="region">BY REGION</option>
+        <option value="family">BY GENRE</option><option value="az">A – Z</option><option value="slow">SLOWEST FIRST</option><option value="fast">FASTEST FIRST</option><option value="region">BY REGION</option>
       </select></div></div>
       <div class="tool"><span class="lbl">STEPS</span><div class="segs" id="stepsF">
         <button class="seg" data-s="all" aria-pressed="true">ALL</button><button class="seg" data-s="16" aria-pressed="false">16</button><button class="seg" data-s="12" aria-pressed="false">12</button>
       </div></div>
       <button id="clearF" class="key" hidden>CLEAR FILTERS</button>
     </div>
-    <div class="chips" id="chips" role="toolbar" aria-label="Filter by family"></div>
+    <span class="lbl">GENRE</span>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filter by genre"></div>
     <div id="lib"></div>
-    <p class="empty" id="empty" hidden>NOTHING MATCHES. TRY ANOTHER WORD OR CLEAR THE FILTERS.</p>
+    <p class="empty" id="empty" hidden>NOTHING MATCHES. TRY ANOTHER AREA, WORD OR GENRE, OR CLEAR THE FILTERS.</p>
   </section>
 
   <footer class="foot">
@@ -132,7 +136,8 @@
   </footer>
 </div>
 
-<script src="patterns.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="patterns.js?v=10"></script>
+<script src="map.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

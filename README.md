@@ -43,8 +43,15 @@ Genres with distinct sub-styles live in `window.STYLE_GROUPS` at the bottom of `
 
 Shortcut: build the pattern in the site (click steps, add Euclidean layers), press **Copy as data**, and paste the result into `patterns.js`.
 
+### Genres and the map
+- `window.GENRES` is the list of broad genres (the GENRE chips). `FAMILY_TO_GENRE` maps each pattern's `family` to a genre, and `GENRE_OF` overrides single patterns.
+- `window.AREA_OF` places patterns on the map: `id: 'NA'`, or several areas, `id: ['UK', 'NA']`. Use `'group--style'` ids for individual styles, or `'@group'` for every style in a group. Anything without an area counts as Global.
+- Areas: NA (North America), CAR (Caribbean), LAT (Latin America), UK (UK & Ireland), EUR (Europe), MENA, WAF (West & Central Africa), SAF (Southern Africa), SAS (South Asia), EAS (East Asia).
+- `map.js` is generated (dot-matrix world map). Regenerate it with `tools/mkmap.py` if you change the area outlines.
+
 ## Features
-- 98 library entries across 14 families; 13 of them (rock, house, techno, dubstep, drum & bass, UK garage, reggae, dembow, clave, samba, blasts, gallops, breakdowns) offer 54 numbered sub-styles, each drawn as a circular step diagram (one ring per instrument)
+- Explore by a stylised dot-matrix world map: click an area to see its patterns
+- 97 library entries in 12 genres; 15 of them (pop, K-pop, rock, house, techno, dubstep, drum & bass, UK garage, reggae, dembow, clave, samba, blasts, gallops, breakdowns) offer 77 numbered sub-styles, each drawn as a circular step diagram (one ring per instrument)
 - CIRCLE and GRID tabs: the same pattern as a wheel or as a step-sequencer grid, both clickable
 - SHAPES ONLY: hides the rings and dots so only the rhythm shapes are left
 - Variation slider (0–6): seeded ghost notes, accent moves, doubles, kick pickups and fills. Clave and bell timelines stay fixed
